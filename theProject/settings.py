@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'committeeChairs.apps.CommitteechairsConfig', # i added committee chairs app
+    'students.apps.StudentsConfig', # i added students app
+    'doctors.apps.DoctorsConfig', # i added doctors app
 ]
 
 MIDDLEWARE = [
