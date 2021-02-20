@@ -1,8 +1,16 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 
 # Create your views here.
 
-def index(request):
-    return HttpResponse('this is a committee chairs pages')
+def home(request):
+        return render(request, 'pages_Comm/home.html')
+
+
+def addidea(request):
+        return render(request, 'pages_Comm/add_idea.html')
+
+
+
+def showidea(request):
+        return render(request, 'pages_Comm/show_idea.html')
