@@ -40,6 +40,11 @@ INSTALLED_APPS = [
     'committeeChairs.apps.CommitteechairsConfig', # i added committee chairs app
     'students.apps.StudentsConfig', # i added students app
     'doctors.apps.DoctorsConfig', # i added doctors app
+    'Department.apps.DepartmentConfig',
+    'Evaluation.apps.EvaluationConfig',
+    'Groups.apps.GroupsConfig',
+    'Examiners.apps.ExaminersConfig',
+    'projects.apps.ProjectsConfig',
 ]
 
 MIDDLEWARE = [
@@ -79,11 +84,11 @@ WSGI_APPLICATION = 'theProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'projects',
+        'NAME': 'projectDB',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': 'King_Naif10',
+        'PASSWORD': 'Hh384812*1',
         'OPTIONS': {"init_command": "SET foreign_key_checks = 0;",
         },
     }
