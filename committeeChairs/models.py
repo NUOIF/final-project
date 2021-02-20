@@ -6,6 +6,8 @@ class Groups(models.Model):
     idea_groups = models.CharField(db_column='idea_Groups', max_length=45, blank=True, null=True)  # Field name made lowercase.
     idea_fescription = models.CharField(max_length=45, blank=True, null=True)
     idea_speciallty = models.CharField(max_length=45, blank=True, null=True)
+    def __str__(self):
+        return str(self.id_groups)
 
     class Meta:
         managed = False
@@ -17,7 +19,8 @@ class Projects(models.Model):
     filled_projects = models.CharField(max_length=45, blank=True, null=True)
     descriotion_projects = models.CharField(max_length=45, blank=True, null=True)
     id_groups_fk = models.ForeignKey(Groups, models.DO_NOTHING, db_column='id_Groups_fk', blank=True, null=True)  # Field name made lowercase.
-
+    def __str__(self):
+        return str(self.id_projects)
     class Meta:
         managed = False
         db_table = 'projects'
@@ -26,6 +29,8 @@ class Projects(models.Model):
 class Department(models.Model):
     id_department = models.IntegerField(primary_key=True)
     name_department = models.CharField(max_length=45, blank=True, null=True)
+    def __str__(self):
+        return self.name_department
 
     class Meta:
         managed = False
@@ -37,6 +42,8 @@ class CommitteesCharis(models.Model):
     name_committees_charis = models.CharField(max_length=45, blank=True, null=True)
     passwords = models.CharField(max_length=45, blank=True, null=True)
     id_department_fk = models.ForeignKey('Department', models.DO_NOTHING, db_column='id_department_fk', blank=True, null=True)
+    def __str__(self):
+        return self.name_committees_charis
 
     class Meta:
         managed = False
@@ -47,7 +54,8 @@ class CommitteesCharis(models.Model):
 class Examiners(models.Model):
     id_examiners = models.IntegerField(db_column='id_Examiners', primary_key=True)  # Field name made lowercase.
     name_examiners = models.CharField(db_column='name_Examiners', max_length=45, blank=True, null=True)  # Field name made lowercase.
-
+    def __str__(self):
+        return str(self.id_examiners)
     class Meta:
         managed = False
         db_table = 'examiners'
@@ -61,7 +69,8 @@ class Doctors(models.Model):
     id_department_fk = models.ForeignKey(Department, models.DO_NOTHING, db_column='id_department_fk', blank=True, null=True)
     id_groups_fk = models.ForeignKey(Groups, models.DO_NOTHING, db_column='id_Groups_fk', blank=True, null=True)  # Field name made lowercase.
     id_examiners_fk = models.ForeignKey('Examiners', models.DO_NOTHING, db_column='id_Examiners_fk', blank=True, null=True)  # Field name made lowercase.
-
+    def __str__(self):
+        return self.name_doctors
     class Meta:
         managed = False
         db_table = 'doctors'
@@ -72,18 +81,21 @@ class Evaluation(models.Model):
     gread_evaluation = models.CharField(max_length=45, blank=True, null=True)
     id_examiners_fk = models.ForeignKey('Examiners', models.DO_NOTHING, db_column='id_Examiners_fk', blank=True, null=True)  # Field name made lowercase.
     id_groups_fk = models.ForeignKey(Groups, models.DO_NOTHING, db_column='id_Groups_fk', blank=True, null=True)  # Field name made lowercase.
-
+    def __str__(self):
+        return str(self.id_evaluation)
     class Meta:
         managed = False
         db_table = 'evaluation'
 
 
 class Students(models.Model):
-    id_students = models.OneToOneField(Department, models.DO_NOTHING, db_column='id_Students', primary_key=True)  # Field name made lowercase.
+    id_students = models.IntegerField( db_column='id_Students', primary_key=True)  # Field name made lowercase.
     name_students = models.CharField(db_column='name_Students', max_length=45, blank=True, null=True)  # Field name made lowercase.
     passwords = models.CharField(max_length=45, blank=True, null=True)
     id_groups_fk = models.ForeignKey(Groups, models.DO_NOTHING, db_column='id_Groups_fk', blank=True, null=True)  # Field name made lowercase.
-    id_department_fk = models.IntegerField(blank=True, null=True)
+    id_department_fk = models.ForeignKey(Department, models.DO_NOTHING, db_column='id_department_fk', blank=True, null=True)
+    def __str__(self):
+        return str(self.id_students)
 
     class Meta:
         managed = False
