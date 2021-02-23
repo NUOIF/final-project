@@ -1,4 +1,4 @@
-{%extends 'basc_comm.html'%}
+{%extends 'basic_committee.html'%}
 
 
 
@@ -22,7 +22,7 @@
 
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Doctor ID</th>
+                <th scope="col">Student ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Group ID</th>
               </tr>
@@ -63,10 +63,10 @@
         
         
             <form action="/action_page.php">
-                <label for="fname">Doctor ID:</label>
+                <label for="fname">Student ID:</label>
                 <input type="text" id="fname" name="fname" value="">
                 <label for="lname">Group ID:</label>
-                <input type="text" id="lname" name="lname" value="">
+                <input type="text" id="lname" name="lname" value=""><b>...</b>
                 <button type="submit" class="btn btn-primary btn-md">Register</button>
               </form> 
         
