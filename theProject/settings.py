@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Groups.apps.GroupsConfig',
     'Examiners.apps.ExaminersConfig',
     'projects.apps.ProjectsConfig',
+    'login.apps.LoginConfig',
 ]
 
 MIDDLEWARE = [
