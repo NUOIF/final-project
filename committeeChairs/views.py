@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import *
+from .models import Students, Groups
 
 
 
@@ -19,16 +19,12 @@ def showidea(request):
 
 
 def Add_student_To_groups(request):
-
-        # context = {
-         
-        #  'stu':Students.objects.all(),
-
-        # }
-
-        return render(request, 'pages_Committee/Add_student_To_groups.html')
+        context = {
+                'student':Students.objects.all(),
+                'group':Groups.objects.all(),
+                }
+        return render(request, 'pages_Committee/Add_student_To_groups.html', context)
 
 
 def Add_doctor_To_groups(request):
         return render(request, 'pages_Committee/Add_doctor_To_groups.html')
-        return render(request, 'pages_Committee/show_idea.html')

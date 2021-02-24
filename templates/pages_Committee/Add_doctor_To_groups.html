@@ -11,21 +11,25 @@
 </head>
 <body>
 
-    <Center>
-
-        <table class="table table-bordered">
-            <thead >
-                <br>
-                <br>
-                <br>
-               
-
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Doctor ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Group ID</th>
-              </tr>
+  <style>
+    .container{
+      text-align: center;
+    }
+  </style>
+  </head>
+  <body>
+    <div class="container">
+          <table class="table table-bordered">
+            <thead>
+                  <br>
+                  <br>
+                  <br>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Doctor ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Group ID</th>
+                </tr>
             </thead>
             <tbody>
               <tr>
@@ -34,49 +38,38 @@
                 <td></td>
                 <td></td>
               </tr>
-              
             </tbody>
-          </table>
-        
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          
-          
-        
-        
-        
-            <form action="/action_page.php">
-                <label for="fname">Doctor ID:</label>
-                <input type="text" id="fname" name="fname" value="">
-                <label for="lname">Group ID:</label>
-                <input type="text" id="lname" name="lname" value="">
-                <button type="submit" class="btn btn-primary btn-md">Register</button>
+            </table>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            
+              <form method="GET">
+                    <label for="fname">Doctor ID:</label>
+                    <input type="text" id="fname" name="fname" value="">
+                    <label for="lname">Group ID:</label>
+                    <input type="text" id="lname" name="lname" value=""><b>...</b>
+                    <button type="submit" class="btn btn-primary btn-md">Register</button>
               </form> 
-        
-        </Center>>
-        
-        
-
-
-</body>
-</html> 
-
-
-{%endblock%}
+    </div>
+            
+    </body>
+  </html> 
+  
+  
+  {%endblock%}
