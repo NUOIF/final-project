@@ -8,18 +8,22 @@
 <html>
 <head>
 <title>Page Title</title>
+<style>
+  .container{
+    text-align: center;
+  }
+  button{
+    margin-left:10px;
+  }
+</style>
 </head>
 <body>
-
-    <Center>
-
+  <div class="container">
         <table class="table table-bordered">
-            <thead >
+          <thead>
                 <br>
                 <br>
                 <br>
-               
-
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Student ID</th>
@@ -28,16 +32,31 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              
+                {% for n in student %}
+                
+                <tr>
+                <th scope="row">#</th>
+                  <td>{{n.id_students}}</td>
+                  <td>{{n.name_students}}</td>
+                  {% endfor %}
+                  
+                  {% for g in group %}
+                  <td>{{g.id_groups}}</td>
+                  {% endfor %}
+                </tr>
+                
+                
             </tbody>
           </table>
-        
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
           <br>
           <br>
           <br>
@@ -48,34 +67,16 @@
           <br>
           <br>
           
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
+            <form method="GET">
+                  <label for="fname">Student ID:</label>
+                  <input type="text" id="fname" name="fname" value="">
+                  <label for="lname">Group ID:</label>
+                  <input type="text" id="lname" name="lname" value="">
+                  <button type="submit" class="btn btn-primary btn-md">Register</button>
+            </form> 
+  </div>
           
-          
-        
-        
-        
-            <form action="/action_page.php">
-                <label for="fname">Student ID:</label>
-                <input type="text" id="fname" name="fname" value="">
-                <label for="lname">Group ID:</label>
-                <input type="text" id="lname" name="lname" value=""><b>...</b>
-                <button type="submit" class="btn btn-primary btn-md">Register</button>
-              </form> 
-        
-        </Center>>
-        
-        
-
-
-</body>
+  </body>
 </html> 
 
 
