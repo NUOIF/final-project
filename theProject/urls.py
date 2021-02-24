@@ -22,4 +22,5 @@ urlpatterns = [
     path('committeeChairs/', include('committeeChairs.urls')), # this is a link to committee chairs app
     path('doctors/', include('doctors.urls')), # this is a link to doctors app
     path('students/', include('students.urls')), # this is a link to students app
+   
 ]

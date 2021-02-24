@@ -5,6 +5,7 @@ from Department.models import Department
 from Groups.models import Groups
 from Examiners.models import Examiners
 from Evaluation.models import Evaluation
+from students.models import Students
 
 class CommitteesCharis(models.Model):
     #id

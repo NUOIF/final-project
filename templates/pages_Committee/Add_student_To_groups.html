@@ -1,0 +1,83 @@
+{%extends 'basic_committee.html'%}
+
+
+
+{%block content%}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<style>
+  .container{
+    text-align: center;
+  }
+  button{
+    margin-left:10px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+        <table class="table table-bordered">
+          <thead>
+                <br>
+                <br>
+                <br>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Student ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Group ID</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for n in student %}
+                
+                <tr>
+                <th scope="row">#</th>
+                  <td>{{n.id_students}}</td>
+                  <td>{{n.name_students}}</td>
+                  {% endfor %}
+                  
+                  {% for g in group %}
+                  <td>{{g.id_groups}}</td>
+                  {% endfor %}
+                </tr>
+                
+                
+            </tbody>
+          </table>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          
+            <form method="GET">
+                  <label for="fname">Student ID:</label>
+                  <input type="text" id="fname" name="fname" value="">
+                  <label for="lname">Group ID:</label>
+                  <input type="text" id="lname" name="lname" value="">
+                  <button type="submit" class="btn btn-primary btn-md">Register</button>
+            </form> 
+  </div>
+          
+  </body>
+</html> 
+
+
+{%endblock%}
