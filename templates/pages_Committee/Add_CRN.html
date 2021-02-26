@@ -1,0 +1,124 @@
+{%extends 'basic_committee.html'%}
+
+
+{%block content%}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+.container{
+    text-align: center;
+    
+   
+    
+    
+}
+
+
+button{
+    /* margin-bottom:10px; */
+    /* margin-bottom: 100%; */
+    margin: 60px 30px 30px;
+
+}
+
+
+
+</style>
+</head>
+<body>
+<div class="container">
+        <table class="table table-bordered">
+        <thead>
+                <br>
+                <br>
+                <br>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">ID Groub</th>
+                <th scope="col">superviser name</th>
+                <th scope= "col">Groub CRN</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+
+                {%for do in doctor%}
+                
+                <tr>
+                <th scope="row">#</th>
+                <td>{{do.id_groups_fk }}</td>
+                <td>{{do.name_doctors }}</td>
+            <!-- <td> <label for="lname">Group CRN</label></td> -->
+                    {%for gr in groub%}
+
+
+                
+                    <td><input type="text" id="lname" name="lname" value={{gr.name_groups}}></td>
+            <!-- <td> <button type="submit" class="btn btn-primary btn-md">Register</button></td> -->
+                {% endfor %}
+                    {% endfor %} 
+        
+                </tr>
+                
+                
+            </tbody>
+        </table>
+        <br>
+        <br>
+        <br>
+            <!-- <formb class="boox" method="GET">
+                <label for="lname">Group CRN</label>
+                <input type="text" id="lname" name="lname" value=""> -->
+                <br>
+            <button type="submit" class="btn btn-primary btn-md">Register</button> 
+            <!-- </formb>  -->
+
+</div>
+
+</body>
+</html> 
+<!-- <!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+    <label for="cars">Choose ID Groub:</label>
+
+    <select id="cars" name="carlist" form="carform">
+        
+    <option value="volvo">chois</option>
+    
+    {%for gr in groub%}
+    <option value="volvo">{{gr.id_groups}}</option>
+
+    {%endfor%} 
+</select>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <form method="GET">
+        <label for="fname">Student ID:</label>
+        <input type="text" id="fname" name="fname" value="">
+        <label for="lname">Group ID:</label>
+        <input type="text" id="lname" name="lname" value="">
+        <button type="submit" class="btn btn-primary btn-md">Register</button>
+  </form> 
+
+    
+
+   
+    
+    
+
+</body>
+</html> -->
+
+
+
+{%endblock%}

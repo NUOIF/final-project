@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from .models import Students, Groups
+from .models import Students,Groups
+from doctors .models import Doctors
 
 
 
@@ -28,3 +29,16 @@ def Add_student_To_groups(request):
 
 def Add_doctor_To_groups(request):
         return render(request, 'pages_Committee/Add_doctor_To_groups.html')
+
+
+
+
+def Add_CRN(request):
+        context={
+                'doctor':Doctors.objects.all(),
+                'groub':Groups.objects.all(),
+
+        }
+
+
+        return render(request, 'pages_Committee/Add_CRN.html',context)
