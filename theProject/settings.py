@@ -89,7 +89,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': '123456',
         'OPTIONS': {"init_command": "SET foreign_key_checks = 0;",
         },
     }
