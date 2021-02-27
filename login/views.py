@@ -1,24 +1,76 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
-# from committeeChairs.models import CommitteesCharis
-# from students.models import Students
-# from doctors.models import Doctors
-from .models import Doctors,CommitteesCharis,Students
-
+from django.contrib import messages
+from .models import Doctors,CommitteesCharis,Students,Groups
 # Create your views here.
 
-# def login(request):
-#     con = mysql.connctor.connect(host="localhost",user="root",passwd="root",database="projectDB")
-#     cursor = con.cursor()
-#     con2 = mysql.connctor.connect(host="localhost",user="root",passwd="root",database="projectDB")
-#     cursor2 = con2.cursor()
-#     sqlcommand = "select name_committees_charis from committee_chairs"
-#     sqlcommand = "select passwords from committee_chairs"
-#     u = []
-#     p = []
-# def login(request):
-#     username = request.POST.get('username')
-#     password = request.POST.get('password')
-#     committeeInfo = CommitteesCharis(name_committees_charis = username , passwords = password)
-#     committeeInfo.save()
-#     return render(request, 'login.html')
+def login(request):
+    if request.method=="POST":
+        try:
+            committee = CommitteesCharis.objects.get(id_committees_charis = request.POST['username'], passwords = request.POST['password'])
+            print("Welcome committee = ", committee)
+            request.session['username'] = committee.id_committees_charis
+            messages.success(request, "Correct ..!")
+            return render(request, 'basic_committee.html')
+        except CommitteesCharis.DoesNotExist as committeeNull:
+            messages.error(request,"Username OR Password Invalid ..!")
+    return render(request, "login.html")
+
+## committee chairs views
+
+def committee_home(request):
+    return render(request, 'pages_Committee/home.html')
+
+
+def committee_add_idea(request):
+    return render(request, 'pages_Committee/add_idea.html')
+
+
+
+def committee_show_idea(request):
+    return render(request, 'pages_Committee/show_idea.html')
+
+
+def committee_add_student_to_groups(request):
+    context = {
+            'student':Students.objects.all(),
+            'group':Groups.objects.all(),
+            }
+    return render(request, 'pages_Committee/Add_student_To_groups.html', context)
+
+
+def committee_add_doctor_to_groups(request):
+    context = {
+            'doctor':Doctors.objects.all(),
+            
+            }
+    return render(request, 'pages_Committee/Add_doctor_To_groups.html', context)
+
+def Add_CRN(request):
+        context={
+                'doctor':Doctors.objects.all(),
+                'groub':Groups.objects.all(),
+
+        }
+
+
+        return render(request, 'pages_Committee/Add_CRN.html',context)
+
+
+
+
+
+
+
+
+
+
+
+
+def evaluation(request):
+        return render(request, 'pages_Committee/show_evaluation.html')
+# doctors views
+
+def doctors_home(request):
+    return render(request, 'baisc_doctors.html')
+
+# students views

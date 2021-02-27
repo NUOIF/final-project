@@ -32,20 +32,14 @@
               </tr>
             </thead>
             <tbody>
-                {% for n in student%}
-                
+                {% for n in student %}
                 <tr>
                 <th scope="row">#</th>
-                
-                  <td>{{n.id_students}}</td>
-                  <td>{{n.name_students}}</td>
-                  <td>{{n.id_groups_fk}}</td>
-
-                  {% endfor %}
-
+                    <td>{{n.id_Students}}</td>
+                    <td>{{n.name_Students}}</td>
+                    <td>{{n.id_groups_fk}}</td>
                 </tr>
-                
-                
+                {% endfor %}          
             </tbody>
           </table>
           <br>
