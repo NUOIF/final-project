@@ -41,6 +41,17 @@ def committee_add_student_to_groups(request):
 def committee_add_doctor_to_groups(request):
     return render(request, 'pages_Committee/Add_doctor_To_groups.html')
 
+def Add_CRN(request):
+        context={
+                'doctor':Doctors.objects.all(),
+                'groub':Groups.objects.all(),
+
+        }
+
+
+        return render(request, 'pages_Committee/Add_CRN.html',context)
+
+
 
 
 
