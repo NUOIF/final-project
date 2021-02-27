@@ -85,15 +85,14 @@ WSGI_APPLICATION = 'theProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'projects',
+
+       
+
+        'NAME': 'project',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'USER': 'root',
-<<<<<<< HEAD
-        'PASSWORD': 'King_Naif10',
-=======
-        'PASSWORD': '123456',
->>>>>>> upstream/master
+        'PASSWORD': '',
         'OPTIONS': {"init_command": "SET foreign_key_checks = 0;",
         },
     }

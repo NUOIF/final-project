@@ -39,7 +39,11 @@ def committee_add_student_to_groups(request):
 
 
 def committee_add_doctor_to_groups(request):
-    return render(request, 'pages_Committee/Add_doctor_To_groups.html')
+    context = {
+            'doctor':Doctors.objects.all(),
+            
+            }
+    return render(request, 'pages_Committee/Add_doctor_To_groups.html', context)
 
 def Add_CRN(request):
         context={
@@ -63,7 +67,7 @@ def Add_CRN(request):
 
 
 def evaluation(request):
-        return render(request, 'pages_Comm/show_evaluation.html')
+        return render(request, 'pages_Committee/show_evaluation.html')
 # doctors views
 
 def doctors_home(request):
