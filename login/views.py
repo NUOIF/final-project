@@ -52,13 +52,21 @@ def Add_CRN(request):
         return render(request, 'pages_Committee/Add_CRN.html',context)
 
 
+
+
+
+
+
+
+
+
+
+
+def evaluation(request):
+        return render(request, 'pages_Comm/show_evaluation.html')
 # doctors views
 
 def doctors_home(request):
     return render(request, 'baisc_doctors.html')
 
-
-
-
-# students views 
-
+# students views
