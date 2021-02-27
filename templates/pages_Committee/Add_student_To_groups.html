@@ -32,17 +32,17 @@
               </tr>
             </thead>
             <tbody>
-                {% for n in student %}
+                {% for n in student%}
                 
                 <tr>
                 <th scope="row">#</th>
+                
                   <td>{{n.id_students}}</td>
                   <td>{{n.name_students}}</td>
+                  <td>{{n.id_groups_fk}}</td>
+
                   {% endfor %}
-                  
-                  {% for g in group %}
-                  <td>{{g.id_groups}}</td>
-                  {% endfor %}
+
                 </tr>
                 
                 
@@ -52,21 +52,6 @@
           <br>
           <br>
           <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          
             <form method="GET">
                   <label for="fname">Student ID:</label>
                   <input type="text" id="fname" name="fname" value="">
