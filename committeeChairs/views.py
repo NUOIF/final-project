@@ -14,3 +14,7 @@ def addidea(request):
 
 def showidea(request):
         return render(request, 'pages_Comm/show_idea.html')
+
+
+def evaluation(request):
+        return render(request, 'pages_Comm/show_evaluation.html')
