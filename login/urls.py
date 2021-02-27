@@ -1,6 +1,6 @@
 from django.urls import path
 from .import views
-from committeeChairs.urls import urlpatterns
+
 urlpatterns = [
     path('', views.login, name='login'),
     # committees paths

@@ -63,7 +63,7 @@ def Add_CRN(request):
 
 
 def evaluation(request):
-        return render(request, 'pages_Comm/show_evaluation.html')
+        return render(request, 'pages_Committee/show_evaluation.html')
 # doctors views
 
 def doctors_home(request):
