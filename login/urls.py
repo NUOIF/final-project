@@ -4,11 +4,13 @@ from committeeChairs.urls import urlpatterns
 urlpatterns = [ 
     path('', views.login, name='login'),
     # committees paths
-    path('committee-home', views.home, name='committee-home'),
-    path('committee-add-idea', views.addidea, name='committee-add-idea'),
-    path('committee-show-idea', views.showidea, name='committee-show-idea'),
-    path('committee-add-student-to-groups', views.Add_student_To_groups,name='committee-add-student-to-groups'),
-    path('committee-add-doctor-to-groups', views.Add_doctor_To_groups,name='committee-add-doctor-to-groups'),
+    path('committee_home', views.committee_home, name='committee_home'),
+    path('committee_add_idea', views.committee_add_idea, name='committee_add_idea'),
+    path('committee_show_idea', views.committee_show_idea, name='committee_show_idea'),
+    path('committee_add_student_to_groups', views.committee_add_student_to_groups,name='committee_add_student_to_groups'),
+    path('committee_add_doctor_to_groups', views.committee_add_doctor_to_groups,name='committee_add_doctor_to_groups'),
+    path('Add_CRN', views.Add_CRN,name='Add_CRN'),
     # doctors paths
+    path('doctors_home', views.doctors_home, name='doctors_home'),
     # students paths
     ]

@@ -1,6 +1,4 @@
 from django.shortcuts import render
-from .models import Students,Groups
-from doctors .models import Doctors
 
 
 
