@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Groups.apps.GroupsConfig',
     'Examiners.apps.ExaminersConfig',
     'projects.apps.ProjectsConfig',
+    'login.apps.LoginConfig',
 ]
 
 MIDDLEWARE = [
@@ -84,11 +85,11 @@ WSGI_APPLICATION = 'theProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'projectDB',
+        'NAME': 'projects',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': 'Hh384812*1',
+        'PASSWORD': 'King_Naif10',
         'OPTIONS': {"init_command": "SET foreign_key_checks = 0;",
         },
     }
