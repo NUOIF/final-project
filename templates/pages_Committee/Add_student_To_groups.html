@@ -34,40 +34,45 @@
             <tbody>
                 {% for n in student %}
                 <tr>
-                <th scope="row">#</th>
-                    <td>{{n.id_Students}}</td>
-                    <td>{{n.name_Students}}</td>
-                    <td>{{n.id_groups_fk}}</td>
+                  <th scope="row">#</th>
+                  <td>{{n.id_Students}}</td>
+                  <td>{{n.name_Students}}</td>
+                  <td>{{n.id_groups_fk}}</td>
+                {% endfor %}
                 </tr>
-                {% endfor %}          
+                
             </tbody>
           </table>
           <br>
           <br>
           <br>
           <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          
-            <form method="GET">
-                  <label for="fname">Student ID:</label>
-                  <input type="text" id="fname" name="fname" value="">
-                  <label for="lname">Group ID:</label>
-                  <input type="text" id="lname" name="lname" value="">
-                  <button type="submit" class="btn btn-primary btn-md">Register</button>
-            </form> 
+          <!-- <form method="POST">
+            {% csrf_token %}
+            <label>Student ID:</label>
+            <input type="text" name="students">
+            <label>Group ID:</label>
+            <input type="text" name="group">
+            <button type="submit" class="btn btn-primary btn-md">Register</button>
+          </form>  -->
+
+          <form method="POST">
+            {% csrf_token %}
+            <label>Choose a Studnet:</label>
+            <select name="std">
+              {% for std in student %}
+              <option value="{{std.id_Students}}">{{std.id_Students}}</option>
+              {% endfor %}
+            </select>
+            <label>Choose a Group:</label>
+            <select name="group">
+              {% for group in groups %}
+              <option value="{{group.id_groups}}">{{group.name_groups}}</option>
+              {% endfor %}
+            </select>
+            <br><br>
+            <input type="submit" value="Submit">
+          </form>
   </div>
           
   </body>

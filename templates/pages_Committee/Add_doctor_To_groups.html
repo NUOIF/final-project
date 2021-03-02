@@ -8,68 +8,61 @@
 <html>
 <head>
 <title>Page Title</title>
+<style>
+  .container{
+    text-align: center;
+  }
+  button{
+    margin-left:10px;
+  }
+</style>
 </head>
 <body>
-
-  <style>
-    .container{
-      text-align: center;
-    }
-  </style>
-  </head>
-  <body>
-    <div class="container">
-          <table class="table table-bordered">
-            <thead>
-                  <br>
-                  <br>
-                  <br>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Doctor ID</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Group ID</th>
-                </tr>
+  <div class="container">
+        <table class="table table-bordered">
+          <thead>
+                <br>
+                <br>
+                <br>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Doctor ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Group ID</th>
+              </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+                {% for n in doctor%}
+                
+                <tr>
+                <th scope="row">#</th>
+                
+                  <td>{{n.id_Doctors}}</td>
+                  <td>{{n.name_Doctors}}</td>
+                  <td>{{n.id_groups_fk}}</td>
+
+                  {% endfor %}
+
+                </tr>
+                
+                
             </tbody>
-            </table>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            
-              <form method="GET">
-                    <label for="fname">Doctor ID:</label>
-                    <input type="text" id="fname" name="fname" value="">
-                    <label for="lname">Group ID:</label>
-                    <input type="text" id="lname" name="lname" value=""><b>...</b>
-                    <button type="submit" class="btn btn-primary btn-md">Register</button>
-              </form> 
-    </div>
-            
-    </body>
-  </html> 
-  
-  
-  {%endblock%}
+          </table>
+          <br>
+          <br>
+          <br>
+          <br>
+            <form method="POST">
+                  <label for="fname">Doctor ID:</label>
+                  <input type="text" id="fname" name="fname" value="">
+                  <label for="lname">Group ID:</label>
+                  <input type="text" id="lname" name="lname" value="">
+                  <button type="submit" class="btn btn-primary btn-md">Register</button>
+            </form> 
+  </div>
+          
+  </body>
+</html> 
+
+
+{%endblock%}

@@ -1,14 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django import forms
 from django.contrib import messages
+from django.utils.datastructures import MultiValueDictKeyError
 from .models import Doctors,CommitteesCharis,Students,Groups
+from projects.forms import Add_Idea
 # Create your views here.
 
 def login(request):
     if request.method=="POST":
         try:
-            committee = CommitteesCharis.objects.get(id_committees_charis = request.POST['username'], passwords = request.POST['password'])
+            committee = CommitteesCharis.objects.get(
+                name_committees_charis = request.POST.get('username'), 
+                passwords = request.POST.get('password')
+                )
             print("Welcome committee = ", committee)
-            request.session['username'] = committee.id_committees_charis
+            request.session['username'] = committee.name_committees_charis
             messages.success(request, "Correct ..!")
             return render(request, 'basic_committee.html')
         except CommitteesCharis.DoesNotExist as committeeNull:
@@ -22,7 +28,19 @@ def committee_home(request):
 
 
 def committee_add_idea(request):
-    return render(request, 'pages_Committee/add_idea.html')
+    if request.method =='POST':
+        Idea = Add_Idea(request.POST)
+        if Idea.is_valid():
+            Idea.save()
+
+
+
+    context={
+        'from':Add_Idea(),
+    }
+
+
+    return render(request, 'pages_Committee/add_idea.html',context)
 
 
 
@@ -31,34 +49,69 @@ def committee_show_idea(request):
 
 
 def committee_add_student_to_groups(request):
+    # studnetData = request.GET.get('stdselect')
+    # groupData = request.GET.get('groupselect')
+    # databoth = Students.objects.update(name_Students=studnetData)
+    studnetField = Students.objects.filter(id_groups_fk=None)
+    groupField = Groups.objects.exclude(id_groups=None)
+    std  = Students.objects.filter(id_groups_fk=None)
+    our_form = request.POST
+    if request.method == 'POST':
+        studentsID = request.POST.create('std')
+        groupID = request.POST.create('group')
+        data = Students,Groups(id_Students = studentsID, id_groups = groupID)
+        data.save()
+    #studnetField.save()
     context = {
-            'student':Students.objects.all(),
-            'group':Groups.objects.all(),
-            }
+            'student':std,
+            'groups': groupField,
+    }
+
     return render(request, 'pages_Committee/Add_student_To_groups.html', context)
 
 
+# def committee_add_student_to_groups(request):
+#     context = {
+#             'student':Students.objects.all(),
+#             }
+    
+#     if request.method=="POST":
+#         studentsID = request.POST['students']
+#         groupID = request.POST.['group']
+#         data = Students(name_Students = studentsID, id_groups_fk = groupID)
+#         data.save()
+#     return render(request, 'pages_Committee/Add_student_To_groups.html', context)
+
+
 def committee_add_doctor_to_groups(request):
-    return render(request, 'pages_Committee/Add_doctor_To_groups.html')
+    context = {
+            'doctor':Doctors.objects.all(),
+            }
+    return render(request, 'pages_Committee/Add_doctor_To_groups.html', context)
 
 def Add_CRN(request):
-        context={
-                'doctor':Doctors.objects.all(),
-                'groub':Groups.objects.all(),
+    # if request.method == 'POST':
+    #     addCRN= Groups(request.POST)
+    #     if addCRN.is_valid():
+    #         addCRN.save()
 
-        }
+    context={
+            'doctor':Doctors.objects.all(),
+            'groub':Groups.objects.all(),
+            }
+    #     addcrn= request.POST['addcrn']
+    #     groups=Groups(addcrn=name_groups)
+    #     groub.save()
+    return render(request, 'pages_Committee/Add_CRN.html',context)
 
 
-        return render(request, 'pages_Committee/Add_CRN.html',context)
 
 
+def evaluation(request):
+        return render(request, 'pages_Committee/show_evaluation.html')
 # doctors views
 
 def doctors_home(request):
     return render(request, 'baisc_doctors.html')
 
-
-
-
-# students views 
-
+# students views
