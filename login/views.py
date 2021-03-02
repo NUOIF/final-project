@@ -3,6 +3,7 @@ from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
 from .models import Doctors,CommitteesCharis,Students,Groups
+from projects.forms import Add_Idea
 # Create your views here.
 
 def login(request):
@@ -27,7 +28,19 @@ def committee_home(request):
 
 
 def committee_add_idea(request):
-    return render(request, 'pages_Committee/add_idea.html')
+    if request.method =='POST':
+        Idea = Add_Idea(request.POST)
+        if Idea.is_valid():
+            Idea.save()
+
+
+
+    context={
+        'from':Add_Idea(),
+    }
+
+
+    return render(request, 'pages_Committee/add_idea.html',context)
 
 
 
@@ -77,22 +90,19 @@ def committee_add_doctor_to_groups(request):
     return render(request, 'pages_Committee/Add_doctor_To_groups.html', context)
 
 def Add_CRN(request):
-        context={
-                'doctor':Doctors.objects.all(),
-                'groub':Groups.objects.all(),
+    # if request.method == 'POST':
+    #     addCRN= Groups(request.POST)
+    #     if addCRN.is_valid():
+    #         addCRN.save()
 
-        }
-
-
-        return render(request, 'pages_Committee/Add_CRN.html',context)
-
-
-
-
-
-
-
-
+    context={
+            'doctor':Doctors.objects.all(),
+            'groub':Groups.objects.all(),
+            }
+    #     addcrn= request.POST['addcrn']
+    #     groups=Groups(addcrn=name_groups)
+    #     groub.save()
+    return render(request, 'pages_Committee/Add_CRN.html',context)
 
 
 
