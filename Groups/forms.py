@@ -13,3 +13,4 @@ class CRN(forms.ModelForm):
             'id_groups':forms.Select(attrs={'class':'form-control'}),
             'name_Groups':forms.TextInput(attrs={'class':'form-control'}),
         } 
+        

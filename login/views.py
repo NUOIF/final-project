@@ -38,6 +38,7 @@ def committee_add_idea(request):
 
     context={
         'from':Add_Idea(),
+        'cont':messages.success(request,"add idea"),
     }
 
 
