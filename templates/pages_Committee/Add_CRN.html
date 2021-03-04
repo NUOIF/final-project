@@ -4,74 +4,33 @@
 {%block content%}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
-<style>
-.container{
-    text-align: center;
-    
-
-}
-
-
-.button{
-    /* margin-bottom:10px; */
-    /* margin-bottom: 100%; */
-    margin: 60px 30px 30px;
-
-}
-</style>
-
-
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
 
 </head>
 <body>
-<div class="container">
-        <table class="table table-bordered">
-        <thead>
-                <br>
-                <br>
-                <br>
-            <tr>
-                <th scope="co">#</th>
-                <th scope="col">ID Groub</th>
-                <!-- <th scope="col">superviser name</th> -->
-                <th scope= "col">Groub CRN</th>
-                
-            </tr>
-            </thead>
-            {%for gr in groub%}
-           
-           
-                <formb class="boox" method="post" action="">
-                {%csrf_token%}
-                <tbody>
-                <tr>
-                <th scope="row">#</th>
-                <td>{{gr.id_groups }}</td>
-                <td><input type="text" id="lname" name="addcrn" value={{gr.name_groups}}></td>
-                    
-<!-- 
-                {%for gr in groub%}
 
-                    <td><input type="text" id="lname" name="lname" value={{gr.name_groups}}></td>
-                {% endfor %} -->
-            </tr>
-                    {% endfor %} 
-            </tbody>
-        </table>
-        <br>
-        <br>
-        <br>
-                <br>
-            <button type="submit" class="btn btn-primary btn-md">Register</button> 
-           </formb>
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+  <div class="row">
+  {{froms}}
 
-</div>
+  </div>
+
+
+  <div class="card-foter">
+    <button type="submit" class="btn btn-primary">submit</button>
+    </div>
+   
+
+</form>
 
 </body>
-</html> 
+</html>
 
 <!-- 
 
