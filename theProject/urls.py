@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path , include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,3 +25,4 @@ urlpatterns = [
     path('doctors/', include('doctors.urls')), # this is a link to doctors app
     path('students/', include('students.urls')), # this is a link to students app
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)#This is a setting URL for media (:

@@ -138,3 +138,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[
     os.path.join(BASE_DIR, 'theProject/static')
 ]
+#media files
+#Create the media for images or files that are uploaded to the database(؛
+MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+MEDIA_URL='/media/'
