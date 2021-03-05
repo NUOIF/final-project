@@ -32,9 +32,7 @@ def committee_add_idea(request):
         Idea = Add_Idea(request.POST)
         if Idea.is_valid():
             Idea.save()
-
-
-
+            
     context={
         'from':Add_Idea(),
     }
