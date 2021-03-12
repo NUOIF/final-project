@@ -25,7 +25,7 @@ SECRET_KEY = '6uybiny5f()4z$ndza6ks$%t22fh(@*&)c6+&3-y1l4j(0%1=o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.8.142','127.0.0.1']
 
 
 # Application definition
@@ -85,14 +85,11 @@ WSGI_APPLICATION = 'theProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-
-
-
-        'NAME': 'projects',
-        'HOST': '127.0.0.1',
+        'NAME': 'projectDB',
+        'HOST': 'localhost',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': 'King_Naif10',
+        'PASSWORD': 'root',
         'OPTIONS': {"init_command": "SET foreign_key_checks = 0;",
         },
     }

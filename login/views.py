@@ -1,26 +1,69 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render 
+import os
+from django.conf import settings
+from django.templatetags.static import static
+from django.utils.regex_helper import Group
+
+from projects.models import Projects
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
 from .models import Doctors,CommitteesCharis,Students,Groups
-from projects.forms import Add_Idea
+#from projects.forms import Add_Idea
 from Groups.forms import CRN 
-# Create your views here.
+
+# Login Pages
+
+
+## messages for login page
+message_welcome = 'Welcome Mr.'
+message_error_sorry = "Sorry Mr."
+message_error_reason = " the username or password are invalid - please try again"
 
 def login(request):
+    return render(request, "login.html")
+
+
+def loginCommittee(request):
     if request.method=="POST":
         try:
-            committee = CommitteesCharis.objects.get(
+            check_committee = CommitteesCharis.objects.get(
                 name_committees_charis = request.POST.get('username'), 
                 passwords = request.POST.get('password')
                 )
-            print("Welcome committee = ", committee)
-            request.session['username'] = committee.name_committees_charis
-            messages.success(request, "Correct ..!")
+            messages.success(request, message_welcome + request.POST.get('username'))
             return render(request, 'basic_committee.html')
         except CommitteesCharis.DoesNotExist as committeeNull:
-            messages.error(request,"Username OR Password Invalid ..!")
-    return render(request, "login.html")
+            messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
+    return render(request, "pages_login/loginCommittee.html")
+
+
+def loginDoctors(request):
+    if request.method=="POST":
+        try:
+            check_doctor = Doctors.objects.get(
+                name_Doctors = request.POST.get('username'), 
+                passwords = request.POST.get('password')
+                )
+            messages.success(request, message_welcome + request.POST.get('username'))
+            return render(request, 'baisc_doctors.html')
+        except Doctors.DoesNotExist as doctorNull:
+            messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
+    return render(request, "pages_login/loginDoctors.html")
+
+def loginStudents(request):
+    if request.method=="POST":
+        try:
+            check_student = Students.objects.get(
+                name_Students = request.POST.get('username'), 
+                passwords = request.POST.get('password')
+                )
+            messages.success(request, message_welcome + request.POST.get('username'))
+            return render(request, 'baisc_students.html')
+        except Students.DoesNotExist as studentNull:
+            messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
+    return render(request, "pages_login/loginStudents.html")
+
 
 ## committee chairs views
 
@@ -30,15 +73,27 @@ def committee_home(request):
 
 def committee_add_idea(request):
     if request.method =='POST':
-        Idea = Add_Idea(request.POST, request.FILES)
-        if Idea.is_valid():
-            Idea.save()
-
-
-
+        Idea = Projects(
+            name_projects = request.POST.get('nameProject'),
+            filled_projects = request.POST.get('fieldProject'),
+            descriotion_projects = request.POST.get('descriptionProject'),
+            # id_groups_fk = request.POST.get('groupfk'),
+            file_project = request.FILES.get('fileProject'))
+        Idea.save()
+        #if Idea.is_valid():
+            
     context={
-        'from':Add_Idea(),
+        
     }
+
+    # if request.method =='POST':
+    #     Idea = Add_Idea(request.POST, request.FILES)
+    #     if Idea.is_valid():
+    #         Idea.save()
+            
+    # context={
+    #     'from':Add_Idea(),
+    # }
 
 
     return render(request, 'pages_Committee/add_idea.html',context)
@@ -53,10 +108,9 @@ def committee_add_student_to_groups(request):
     # studnetData = request.GET.get('stdselect')
     # groupData = request.GET.get('groupselect')
     # databoth = Students.objects.update(name_Students=studnetData)
-    studnetField = Students.objects.filter(id_groups_fk=None)
+    #studnetField = Students.objects.filter(id_groups_fk=None)
     groupField = Groups.objects.exclude(id_groups=None)
     std  = Students.objects.filter(id_groups_fk=None)
-    our_form = request.POST
     if request.method == 'POST':
         studentsID = request.POST.create('std')
         groupID = request.POST.create('group')
@@ -114,3 +168,6 @@ def doctors_home(request):
     return render(request, 'baisc_doctors.html')
 
 # students views
+
+def students_home(request):
+    return render(request, 'baisc_students.html')

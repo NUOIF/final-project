@@ -3,6 +3,7 @@
 
 
 {%block content%}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,19 +17,30 @@
 
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
-  <div class="row">
-  {{from}}
-
-  </div>
-
-
-  <div class="card-foter">
-    <button type="submit" class="btn btn-primary">submit</button>
+  <br><br><br><br><br><br>
+  <div class="container">
+    <div class="mb-3">
+      <label for="formGroupExampleInput" class="form-label">Example label</label>
+      <input type="text" name="nameProject" class="form-control" id="formGroupExampleInput" placeholder="nameProject">
     </div>
-   
-
+    <div class="mb-3">
+      <label for="formGroupExampleInput2" class="form-label">Another label</label>
+      <input type="text" name="fieldProject" class="form-control" id="formGroupExampleInput2" placeholder="field">
+    </div>
+    <div class="mb-3">
+      <label for="formGroupExampleInput" class="form-label">Example label</label>
+      <input type="text" name="descriptionProject" class="form-control" id="formGroupExampleInput" placeholder="desc">
+    </div>
+    <div class="mb-3">
+      <label for="formGroupExampleInput2" class="form-label">Another label</label>
+      <input type="file" name="fileProject" class="form-control form-control-lg" id="formGroupExampleInput2" placeholder="upload file">
+    </div>
+    <div class="card-foter">
+      <button type="submit" class="btn btn-primary">submit</button>
+    </div>
+  </div>
 </form>
-
 </body>
 </html>
+
 {%endblock%}
