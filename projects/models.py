@@ -2,7 +2,6 @@ from django.db import models
 from Groups.models import Groups
 from doctors.models import Doctors
 # Create your models here.
-
 class Projects(models.Model):
     status_project=[
         ('avilable','avilable'),

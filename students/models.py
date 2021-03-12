@@ -4,7 +4,6 @@ from Department.models import Department
 # Create your models here.
 
 class Students(models.Model):
-    #id_Students = models.AutoField(primary_key=True)  # Field name made lowercase.
     id_students = models.AutoField(db_column='id_Students', primary_key=True)
     name_Students = models.CharField(max_length=45, blank=True, null=True)  # Field name made lowercase.
     passwords = models.CharField(max_length=45, blank=True, null=True)
