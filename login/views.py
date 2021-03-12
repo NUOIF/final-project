@@ -9,7 +9,7 @@ from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
 from .models import Doctors,CommitteesCharis,Students,Groups
-#from projects.forms import Add_Idea
+from projects.forms import Add_Idea
 from Groups.forms import CRN 
 
 # Login Pages
@@ -72,29 +72,14 @@ def committee_home(request):
 
 
 def committee_add_idea(request):
+    
     if request.method =='POST':
-        Idea = Projects(
-            name_projects = request.POST.get('nameProject'),
-            filled_projects = request.POST.get('fieldProject'),
-            descriotion_projects = request.POST.get('descriptionProject'),
-            # id_groups_fk = request.POST.get('groupfk'),
-            file_project = request.FILES.get('fileProject'))
-        Idea.save()
-        #if Idea.is_valid():
-            
+        Idea = Add_Idea(request.POST, request.FILES)
+        if Idea.is_valid():
+            Idea.save()       
     context={
-        
+        'from':Add_Idea(),
     }
-
-    # if request.method =='POST':
-    #     Idea = Add_Idea(request.POST, request.FILES)
-    #     if Idea.is_valid():
-    #         Idea.save()
-            
-    # context={
-    #     'from':Add_Idea(),
-    # }
-
 
     return render(request, 'pages_Committee/add_idea.html',context)
 
