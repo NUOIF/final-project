@@ -9,7 +9,11 @@ from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
 from .models import Doctors,CommitteesCharis,Students,Groups
-from projects.forms import Add_Idea
+from projects.forms import Add_Idea,Projects
+from Groups.forms import CRN 
+from django.shortcuts import redirect#import libray redirect 
+# Create your views here.
+#from projects.forms import Add_Idea
 from Groups.forms import CRN 
 
 # Login Pages
@@ -76,16 +80,25 @@ def committee_add_idea(request):
     if request.method =='POST':
         Idea = Add_Idea(request.POST, request.FILES)
         if Idea.is_valid():
-            Idea.save()       
+            Idea.save()
+            return redirect('committee_home')
+
     context={
         'from':Add_Idea(),
+        
     }
-
     return render(request, 'pages_Committee/add_idea.html',context)
 
-
+def show_suggested_idea(request):
+    
+    context={
+            'project':Projects.objects.all(),
+            
+    }
+    return render(request, 'pages_Committee/show_suggested_idea.html',context)
 
 def committee_show_idea(request):
+    
     return render(request, 'pages_Committee/show_idea.html')
 
 
@@ -139,8 +152,29 @@ def Add_CRN(request):
 
     context={
         'froms':CRN(),
+        'groub':Groups.objects.all(),
     }
     return render(request, 'pages_Committee/Add_CRN.html',context)
+
+
+#CRNهنا سويت فنكشن عشان اقدر اسوي تعديل ل 
+def update(request,id):
+    groub_id = Groups.objects.get(id_groups=id)
+    if request.method =='POST':
+        groub_save = CRN(request.POST,instance=groub_id)
+        if groub_save.is_valid():
+            groub_save.save()
+            return redirect('/Add_CRN')
+
+    else:
+        groub_save = CRN(instance=groub_id)
+        
+    context={
+        'form':groub_save
+
+    }
+    return render(request,'pages_Committee/update.html', context)
+
 
 
 
