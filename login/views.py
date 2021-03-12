@@ -76,6 +76,7 @@ def committee_home(request):
 
 
 def committee_add_idea(request):
+    
     if request.method =='POST':
         Idea = Add_Idea(request.POST, request.FILES)
         if Idea.is_valid():
