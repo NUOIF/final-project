@@ -34,6 +34,7 @@ def committee_add_idea(request):
         Idea = Add_Idea(request.POST, request.FILES)
         if Idea.is_valid():
             Idea.save()
+            return redirect('committee_home')
 
     context={
         'from':Add_Idea(),

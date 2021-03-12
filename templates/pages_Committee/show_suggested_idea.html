@@ -23,7 +23,7 @@
             <th scope="col">descriotion_projects</th>             
             <th scope="col">file_project</th>             
             <th scope="col">Name doctor</th>           
-            <th scope="col">Active</th>  
+            <th scope="col">status</th>  
                      
         </tr>
         </thead>
@@ -37,9 +37,12 @@
             <td>{{pro.name_projects}}</td>
             <td>{{pro.filled_projects}}</td>
             <td>{{pro.descriotion_projects}}</td>
-            <td>{{pro.file_project}}</td>
+            
+            <td>
+                <a href="{{pro.file_project.url}}" class="btn btn-primary btn-sm">Dwonload Files</a>
+                </td>
             <td>{{pro.id_Doctors_fk}}</td>
-            <td>{{pro.active}}</td>
+            <td>{{pro.status}}</td>
                 
             
             </tr>
