@@ -63,7 +63,8 @@ def loginStudents(request):
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
-            return render(request, 'baisc_students.html')
+            hisname = {'stdName':request.POST.get('username')}
+            return render(request, 'baisc_students.html',hisname)
         except Students.DoesNotExist as studentNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
     return render(request, "pages_login/loginStudents.html")
@@ -181,12 +182,44 @@ def update(request,id):
 
 def evaluation(request):
         return render(request, 'pages_Committee/show_evaluation.html')
+
 # doctors views
 
 def doctors_home(request):
-    return render(request, 'baisc_doctors.html')
+    return render(request, 'pages_Doctors/home.html')
+
+def doctor_show_idea(request):
+    return render(request, 'pages_Doctors/doctor_show_idea.html')
+
+def doctor_create_group(request):
+    return render(request, 'pages_Doctors/doctor_create_group.html')
+
+def doctor_modification_the_group(request):
+    return render(request, 'pages_Doctors/doctor_modification_the_group.html')
+
+def doctor_evaluating_groups(request):
+    return render(request, 'pages_Doctors/doctor_evaluating_groups.html')
+
+def doctor_show_my_group_evaluation(request):
+    return render(request, 'pages_Doctors/doctor_show_my_group_evaluation.html')
+
 
 # students views
 
-def students_home(request):
-    return render(request, 'baisc_students.html')
+def student_home(request):
+    return render(request, 'pages_students/student_home.html')
+
+def student_show_the_department_idea(request):
+    return render(request, 'pages_students/student_show_the_department_idea.html')
+
+def student_show_archived_idea(request):
+    return render(request, 'pages_students/student_show_archived_idea.html')
+
+def student_upload_project(request):
+    return render(request, 'pages_students/student_upload_project.html')
+
+def student_create_groups(request):
+    return render(request, 'pages_students/student_create_groups.html')
+
+def student_dont_groups(request):
+    return render(request, 'pages_students/student_dont_groups.html')

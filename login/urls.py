@@ -4,21 +4,39 @@ from django.conf.urls.static import static
 from .import views
 
 urlpatterns = [
+
     path('', views.login, name='login'),
+
     # committees paths
-    path('loginCommittee', views.loginCommittee, name='loginCommittee'),
-    path('committee_home', views.committee_home, name='committee_home'),
-    path('committee_add_idea', views.committee_add_idea, name='committee_add_idea'),
-    path('committee_show_idea', views.committee_show_idea, name='committee_show_idea'),
-    path('show_suggested_idea', views.show_suggested_idea, name='show_suggested_idea'),
-    path('committee_add_student_to_groups', views.committee_add_student_to_groups,name='committee_add_student_to_groups'),
-    path('committee_add_doctor_to_groups', views.committee_add_doctor_to_groups,name='committee_add_doctor_to_groups'),
-    path('Add_CRN', views.Add_CRN,name='Add_CRN'),
-    path('<int:id>',views.update,name='update'),#Url for page update
-    # doctors paths
-    path('loginDoctors', views.loginDoctors, name='loginDoctors'),
-    path('doctors_home', views.doctors_home, name='doctors_home'),
-    # students paths
-    path('loginStudents', views.loginStudents, name='loginStudents'),
-    path('studnet_home' ,views.students_home, name='students_home'),
+
+    path('loginCommittee',                   views.loginCommittee,                    name='loginCommittee'),
+    path('committee_home',                   views.committee_home,                    name='committee_home'),
+    path('committee_add_idea',               views.committee_add_idea,                name='committee_add_idea'),
+    path('committee_show_idea',              views.committee_show_idea,               name='committee_show_idea'),
+    path('show_suggested_idea',              views.show_suggested_idea,               name='show_suggested_idea'),
+    path('committee_add_student_to_groups',  views.committee_add_student_to_groups,   name='committee_add_student_to_groups'),
+    path('committee_add_doctor_to_groups',   views.committee_add_doctor_to_groups,    name='committee_add_doctor_to_groups'),
+    path('Add_CRN',                          views.Add_CRN,                           name='Add_CRN'),
+    path('<int:id>',                         views.update,                            name='update'),#Url for page update
+
+    # doctors paths   
+
+    path('loginDoctors',                     views.loginDoctors,                      name='loginDoctors'),
+    path('doctors_home',                     views.doctors_home,                      name='doctors_home'),
+    path('doctor_show_idea',                 views.doctor_show_idea,                  name='doctor_show_idea'),
+    path('doctor_create_group',              views.doctor_create_group ,              name='doctor_create_group'),
+    path('doctor_modification_the_group',    views.doctor_modification_the_group ,    name='doctor_modification_the_group'),
+    path('doctor_evaluating_groups',         views.doctor_evaluating_groups ,         name='doctor_evaluating_groups'),
+    path('doctor_show_my_group_evaluation',  views.doctor_show_my_group_evaluation ,  name='doctor_show_my_group_evaluation'),
+
+    # students paths  
+
+    path('loginStudents',                    views.loginStudents,                     name='loginStudents'),
+    path('student_home' ,                    views.student_home,                      name='student_home'),
+    path('student_show_the_department_idea', views.student_show_the_department_idea , name='student_show_the_department_idea'),
+    path('student_show_archived_idea',       views.student_show_archived_idea ,       name='student_show_archived_idea'),
+    path('student_upload_project',           views.student_upload_project ,           name='student_upload_project'),
+    path('student_create_groups',            views.student_create_groups ,            name='student_create_groups'),
+    path('student_dont_groups',              views.student_dont_groups ,              name='student_dont_groups'),
+
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
