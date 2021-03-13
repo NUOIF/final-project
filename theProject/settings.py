@@ -46,7 +46,10 @@ INSTALLED_APPS = [
     'Examiners.apps.ExaminersConfig',
     'projects.apps.ProjectsConfig',
     'login.apps.LoginConfig',
+    'crispy_forms',
+
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

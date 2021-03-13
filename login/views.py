@@ -3,7 +3,7 @@ import os
 from django.conf import settings
 from django.templatetags.static import static
 from django.utils.regex_helper import Group
-
+from django.http import HttpResponse
 from projects.models import Projects
 from django import forms
 from django.contrib import messages
@@ -11,10 +11,10 @@ from django.utils.datastructures import MultiValueDictKeyError
 from .models import Doctors,CommitteesCharis,Students,Groups
 from projects.forms import Add_Idea,Projects
 from Groups.forms import CRN 
+from doctors.forms import Doc,Doctors
 from django.shortcuts import redirect#import libray redirect 
 # Create your views here.
 #from projects.forms import Add_Idea
-from Groups.forms import CRN 
 
 # Login Pages
 
@@ -96,6 +96,15 @@ def show_suggested_idea(request):
     }
     return render(request, 'pages_Committee/show_suggested_idea.html',context)
 
+# def download(request,path):
+#     file_path = os.path.join(settings.MEDIA_ROOT,path)
+#     if os.path.exists(file_path):
+#         with open(file_path,'rb')as fh:
+#             response = HttpResponse(fh.read(),content_type="aplication/file_project")
+#             response['content-Disposition']='inline;filename='+os.path.basename(file_path)
+#             return response
+#     raise Http404
+
 def committee_show_idea(request):
     
     return render(request, 'pages_Committee/show_idea.html')
@@ -136,10 +145,34 @@ def committee_add_student_to_groups(request):
 
 
 def committee_add_doctor_to_groups(request):
+    if request.method =='POST':
+        doc = Doc(request.POST)
+        if doc.is_valid():
+            doc.save()
+
+    
     context = {
-            'doctor':Doctors.objects.all(),
-            }
-    return render(request, 'pages_Committee/Add_doctor_To_groups.html', context)
+        'forms':Doc(),
+        'doctor':Doctors.objects.all(),
+    }
+    return render(request,'pages_Committee/Add_doctor_To_groups.html', context)
+
+def Doctor_update(request,id):
+    id_GRO = Doctors.objects.get(id_Doctors=id)
+    if request.method =='POST':
+        do_save = Doc(request.POST,instance= id_GRO)
+        if do_save.is_valid():
+            do_save.save()
+            return redirect('/committee_add_doctor_to_groups')
+
+    else:
+        do_save = Doc(instance=id_GRO)
+        
+    context={
+        'forms':do_save
+
+    }
+    return render(request,'pages_Committee/Doctor_update.html', context)
 
 
 
