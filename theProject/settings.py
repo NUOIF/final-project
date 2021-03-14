@@ -46,7 +46,10 @@ INSTALLED_APPS = [
     'Examiners.apps.ExaminersConfig',
     'projects.apps.ProjectsConfig',
     'login.apps.LoginConfig',
+    'crispy_forms',
+
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,11 +88,11 @@ WSGI_APPLICATION = 'theProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'projectDB',
+        'NAME': 'projects',
         'HOST': 'localhost',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'King_Naif10',
         'OPTIONS': {"init_command": "SET foreign_key_checks = 0;",
         },
     }
