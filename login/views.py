@@ -1,4 +1,7 @@
+from Evaluation.models import Evaluation
+from Evaluation.forms import Distrbution
 from django.shortcuts import render 
+from django.db.models import Q
 import os
 from django.conf import settings
 from django.templatetags.static import static
@@ -85,7 +88,6 @@ def committee_add_idea(request):
         if Idea.is_valid():
             Idea.save()
             return redirect('show_suggested_idea')
-            return redirect('show_suggested_idea')
 
     context={
         'from':Add_Idea(),
@@ -110,23 +112,24 @@ def show_suggested_idea(request):
 #             return response
 #     raise Http404
 
-def committee_show_idea(request):
-    
+def committee_show_idea(request):    
     return render(request, 'pages_Committee/show_idea.html')
 
-
-def committee_add_student_to_groups(request):
+def modifying_groups(request):
     if request.method =='POST':
         stu = Stu(request.POST)
-        if stu.is_valid():
+        doc = Doc(request.POST)
+        if stu.is_valid() and doc.is_valid():
             stu.save()
+            doc.save()
 
-    
     context = {
-        'forms':Stu(),
+        'std_forms':Stu(),
         'student':Students.objects.all(),
+        'group_forms':Doc(),
+        'doctors':Doctors.objects.all(),
     }
-    return render(request,'pages_Committee/Add_student_To_groups.html', context)
+    return render(request,'pages_Committee/modifying_groups.html', context)
 
 def Student_update(request,id):
     id_Stu = Students.objects.get(id_students=id)
@@ -134,84 +137,33 @@ def Student_update(request,id):
         stu_save = Stu(request.POST,instance= id_Stu)
         if stu_save.is_valid():
             stu_save.save()
-            return redirect('/committee_add_student_to_groups')
+            return redirect('/modifying_groups')
 
     else:
         stu_save = Stu(instance=id_Stu)
         
     context={
-        'forms':stu_save
+        'std_forms':stu_save
 
     }
     return render(request,'pages_Committee/Student_update.html', context)
 
-
-
-
-
-    # studnetData = request.GET.get('stdselect')
-    # groupData = request.GET.get('groupselect')
-    # databoth = Students.objects.update(name_Students=studnetData)
-    #studnetField = Students.objects.filter(id_groups_fk=None)
-    # groupField = Groups.objects.exclude(id_groups=None)
-    # std  = Students.objects.filter(id_groups_fk=None)
-    # if request.method == 'POST':
-    #     studentsID = request.POST.create('std')
-    #     groupID = request.POST.create('group')
-    #     data = Students,Groups(id_Students = studentsID, id_groups = groupID)
-    #     data.save()
-    # #studnetField.save()
-    # context = {
-    #         'student':std,
-    #         'groups': groupField,
-    # }
-
-    # return render(request, 'pages_Committee/Add_student_To_groups.html', context)
-
-
-# def committee_add_student_to_groups(request):
-#     context = {
-#             'student':Students.objects.all(),
-#             }
-    
-#     if request.method=="POST":
-#         studentsID = request.POST['students']
-#         groupID = request.POST.['group']
-#         data = Students(name_Students = studentsID, id_groups_fk = groupID)
-#         data.save()
-#     return render(request, 'pages_Committee/Add_student_To_groups.html', context)
-
-
-def committee_add_doctor_to_groups(request):
-    if request.method =='POST':
-        doc = Doc(request.POST)
-        if doc.is_valid():
-            doc.save()
-
-    
-    context = {
-        'forms':Doc(),
-        'doctor':Doctors.objects.all(),
-    }
-    return render(request,'pages_Committee/Add_doctor_To_groups.html', context)
-
 def Doctor_update(request,id):
-    id_GRO = Doctors.objects.get(id_Doctors=id)
+    id_GRO = Doctors.objects.get(id_doctors=id)
     if request.method =='POST':
         do_save = Doc(request.POST,instance= id_GRO)
         if do_save.is_valid():
             do_save.save()
-            return redirect('/committee_add_doctor_to_groups')
+            return redirect('/modifying_groups')
 
     else:
         do_save = Doc(instance=id_GRO)
         
     context={
-        'forms':do_save
+        'group_forms':do_save
 
     }
     return render(request,'pages_Committee/Doctor_update.html', context)
-
 
 
 def Add_CRN(request):
@@ -228,7 +180,7 @@ def Add_CRN(request):
 
 
 #CRNهنا سويت فنكشن عشان اقدر اسوي تعديل ل 
-def update(request,id):
+def CRN_update(request,id):
     groub_id = Groups.objects.get(id_groups=id)
     if request.method =='POST':
         groub_save = CRN(request.POST,instance=groub_id)
@@ -243,15 +195,42 @@ def update(request,id):
         'form':groub_save
 
     }
-    return render(request,'pages_Committee/update.html', context)
+    return render(request,'pages_Committee/CRN_update.html', context)
 
 
+def show_evaluation(request):
+    evaluate = {'evaluation' : Evaluation.objects.all()}
+    return render(request, 'pages_Committee/show_evaluation.html', evaluate)
 
+def distrbution_doctors_to_groups(request):
+    distrbution_doctors = {
+        'evaluation' : Evaluation.objects.exclude(id_doctor_fk = None),
+        'evaluator' : Evaluation.objects.filter( Q(id_doctor_fk = None) | Q(id_doctor_fk2 = None) | Q(id_doctor_fk2 = None) ).exclude(id_groups_fk = None),
+        }
+    return render(request, 'pages_Committee/distrbution_doctors_to_groups.html', distrbution_doctors)
 
+# def distrbution_update(request, id):
+#     evaluator1 = Evaluation.objects.get(id_doctor_fk = id)
+#     # evaluator2 = Evaluation.objects.get(id_doctor_fk2 = id)
+#     # evaluator3 = Evaluation.objects.get(id_doctor_fk3 = id)
+#     if request.method == "POST":
+#         evaluator1_save = Distrbution(request.POST, instance = evaluator1)
+#         # evaluator2_save = Distrbution(request.POST, instance = evaluator2)
+#         # evaluator3_save = Distrbution(request.POST, instance = evaluator3)
+#         if evaluator1_save.is_valid():
+#             evaluator1_save.save()
+#             # evaluator2_save.save()
+#             # evaluator3_save.save()
+#             redirect('/distrbution_doctors_to_groups')
+#     else:
+#         evaluator1_save = Distrbution(instance = evaluator1)
+#         # evaluator2_save = Distrbution(instance = evaluator2)
+#         # evaluator3_save = Distrbution(instance = evaluator3)
+#     context={
+#         'form':evaluator1_save
 
-def evaluation(request):
-        return render(request, 'pages_Committee/show_evaluation.html')
-
+#     }
+#     return render(request,'pages_Committee/distrbution_update.html', context)
 # doctors views
 
 def doctors_home(request):
