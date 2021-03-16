@@ -1,6 +1,6 @@
 {%extends 'basic_committee.html'%}
 
-{% load crispy_forms_tags %}
+<!-- {% load crispy_forms_tags %} -->
 
 {%block content%}
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
   <div class="row">
-  {{from|crispy}}
+  {{from}}
 
   </div>
 

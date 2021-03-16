@@ -2,54 +2,51 @@
 
 {%block content%}
 
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-baqh{text-align:center;vertical-align:top}
-.tg .tg-lvth{font-size:16px;text-align:center;vertical-align:top}
-</style>
-
-<table class="tg">
-  <thead>
-    <tr>
-      <th>Group ID</th>
-      <th>Evaluator 1</th>
-      <th>Evaluator 2</th>
-      <th>Evaluator 3</th>
-      <th>Grade</th>
-      <th>More Details</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Cell</td>
-      <td>Cell</td>
-      <td>Cell</td>
-      <td>Cell</td>
-      <td>Cell</td>
-      <td>Cell</td>
-    </tr>
-    <tr>
-      <td>Cell</td>
-      <td>Cell</td>
-      <td>Cell</td>
-      <td>Cell</td>
-      <td>Cell</td>
-      <td>Cell</td>
-    </tr>
-    <tr>
-      <td>Cell</td>
-      <td>Cell</td>
-      <td>Cell</td>
-      <td>Cell</td>
-      <td>Cell</td>
-      <td>Cell</td>
-    </tr>
-  </tbody>
-</table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form method="GET">
+    <div class="container">
+      
+  
+      <table class="table table-bordered">
+        <thead>
+              
+            <tr>
+              <th scope="col">Group ID</th>            
+              <th scope="col">Evaluator 1</th>
+              <th scope="col">Evaluator 2</th>
+              <th scope="col">Evaluator 3</th>            
+              <th scope="col">Grade</th>           
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                {%for eval in evaluation %}
+                
+                <td>{{eval.id_groups_fk}}</td>
+                <td>{{eval.id_doctor_fk}}</td>
+                <td>{{eval.id_doctor_fk2}}</td>
+                <td>{{eval.id_doctor_fk3}}</td>
+                <td>{{eval.gread_evaluation}}</td>
+  
+                
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+        
+    </div>
+  </form>
+</body>
+</html>
 
 
 

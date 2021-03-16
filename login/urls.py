@@ -14,12 +14,15 @@ urlpatterns = [
     path('committee_add_idea',               views.committee_add_idea,                name='committee_add_idea'),
     path('committee_show_idea',              views.committee_show_idea,               name='committee_show_idea'),
     path('show_suggested_idea',              views.show_suggested_idea,               name='show_suggested_idea'),
-    path('committee_add_student_to_groups',  views.committee_add_student_to_groups,   name='committee_add_student_to_groups'),
-    path('committee_add_doctor_to_groups',   views.committee_add_doctor_to_groups,    name='committee_add_doctor_to_groups'),
+    path('modifying_groups',                 views.modifying_groups,                  name='modifying_groups'),
+    path('show_evaluation',                  views.show_evaluation,                   name='committee_add_doctor_to_groups'),
+    path('distrbution_doctors_to_groups',    views.distrbution_doctors_to_groups,     name='modifying_groups'),
     path('Add_CRN',                          views.Add_CRN,                           name='Add_CRN'),
-    path('<int:id>/update/',                  views.update,                            name='update'),#Url for page update
+    path('<int:id>/CRN_update/',             views.CRN_update,                        name='CRN_update'),#Url for page update
     path('<int:id>/Doctor_update/',          views.Doctor_update,                     name='Doctor_update'),
-    path('<int:id>/Student_update/',         views.Student_update,                    name='Student_update'),
+    path('<int:id>/Student_update',          views.Student_update,                    name='Student_update'),
+    #path('<int:id>/distrbution_update/',     views.distrbution_update,                name='distrbution_update'),
+    
 
     # doctors paths   
 
