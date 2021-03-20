@@ -12,3 +12,6 @@ class CommitteesCharis(models.Model):
     class Meta:
         managed = False
         db_table = 'committees_charis'
+
+# single attr
+
