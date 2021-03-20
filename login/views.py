@@ -81,6 +81,9 @@ def committee_home(request):
     return render(request, 'pages_Committee/home.html')
 
 
+
+
+
 def committee_add_idea(request):
     
     if request.method =='POST':
