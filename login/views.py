@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
-from .forms import Add_Idea, CRN, Doc, Stu
+from .forms import Add_Idea, CRN, Doc, Stu, Distrbution
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -42,7 +42,7 @@ def loginDoctors(request):
     if request.method=="POST":
         try:
             check_doctor = Doctors.objects.get(
-                name_Doctors = request.POST.get('username'), 
+                name_doctors = request.POST.get('username'), 
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('username'))

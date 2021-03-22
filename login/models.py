@@ -12,11 +12,6 @@ class Department(models.Model):
         managed = False
         db_table = 'department'
 
-
-    class Meta:
-        managed = False
-        db_table = 'evaluation'
-
 class CommitteesCharis(models.Model):
     id_committees_charis = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     name_committees_charis = models.CharField(max_length=45, blank=True, null=True,default="nothing")
@@ -89,6 +84,10 @@ class Evaluation(models.Model):
     def __str__(self):
         return str(self.id_evaluation)
 
+
+    class Meta:
+        managed = False
+        db_table = 'evaluation'
 class Examiners(models.Model):
     id_examiners = models.AutoField(db_column='id_Examiners', primary_key=True)  # Field name made lowercase.
     name_examiners = models.CharField(db_column='name_Examiners', max_length=45, blank=True, null=True)  # Field name made lowercase.
