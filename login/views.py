@@ -41,7 +41,7 @@ def loginCommittee(request):
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
-            return render(request, 'basic_committee.html')
+            return render(request, 'pages_Committee/home.html')
         except CommitteesCharis.DoesNotExist as committeeNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
     return render(request, "pages_login/loginCommittee.html")
@@ -51,11 +51,11 @@ def loginDoctors(request):
     if request.method=="POST":
         try:
             check_doctor = Doctors.objects.get(
-                name_Doctors = request.POST.get('username'), 
+                name_doctors = request.POST.get('username'), 
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
-            return render(request, 'baisc_doctors.html')
+            return render(request, 'pages_Doctors/home.html')
         except Doctors.DoesNotExist as doctorNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
     return render(request, "pages_login/loginDoctors.html")
@@ -69,7 +69,7 @@ def loginStudents(request):
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
             hisname = {'stdName':request.POST.get('username')}
-            return render(request, 'baisc_students.html',hisname)
+            return render(request, 'pages_Students/home.html',hisname)
         except Students.DoesNotExist as studentNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
     return render(request, "pages_login/loginStudents.html")
