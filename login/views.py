@@ -1,30 +1,21 @@
-from Evaluation.models import Evaluation
-from Evaluation.forms import Distrbution
+import os
 from django.shortcuts import render 
 from django.db.models import Q
-import os
 from django.conf import settings
 from django.templatetags.static import static
-from django.utils.regex_helper import Group
-from django.http import HttpResponse
-from projects.models import Projects
-# from students.models import Students
+from .models import Evaluation, Projects, Students
+from .forms import Add_Idea, CRN, Doc, Stu, Distrbution
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
-from .models import Doctors,CommitteesCharis,Students,Groups
-from projects.forms import Add_Idea,Projects
-from Groups.forms import CRN 
-from doctors.forms import Doc,Doctors
-from students.forms import Stu
-from django.shortcuts import redirect#import libray redirect 
-# Create your views here.
-#from projects.forms import Add_Idea
+from .models import Doctors,CommitteesCharis,Students,Groups 
+from django.shortcuts import redirect
 
 # Login Pages
 
 
 ## messages for login page
+
 message_welcome = 'Welcome Mr.'
 message_error_sorry = "Sorry Mr."
 message_error_reason = " the username or password are invalid - please try again"
@@ -106,14 +97,6 @@ def show_suggested_idea(request):
     }
     return render(request, 'pages_Committee/show_suggested_idea.html',context)
 
-# def download(request,path):
-#     file_path = os.path.join(settings.MEDIA_ROOT,path)
-#     if os.path.exists(file_path):
-#         with open(file_path,'rb')as fh:
-#             response = HttpResponse(fh.read(),content_type="aplication/file_project")
-#             response['content-Disposition']='inline;filename='+os.path.basename(file_path)
-#             return response
-#     raise Http404
 
 def committee_show_idea(request):    
     return render(request, 'pages_Committee/show_idea.html')
