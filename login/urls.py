@@ -21,8 +21,7 @@ urlpatterns = [
     path('<int:id>/CRN_update/',             views.CRN_update,                        name='CRN_update'),#Url for page update
     path('<int:id>/Doctor_update/',          views.Doctor_update,                     name='Doctor_update'),
     path('<int:id>/Student_update',          views.Student_update,                    name='Student_update'),
-    #path('<int:id>/distrbution_update/',     views.distrbution_update,                name='distrbution_update'),
-    
+    path('distrbution_update/<int:id>',      views.distrbution_update,                name='distrbution_update'),
 
     # doctors paths   
 
@@ -33,7 +32,6 @@ urlpatterns = [
     path('doctor_modification_the_group',    views.doctor_modification_the_group ,    name='doctor_modification_the_group'),
     path('doctor_evaluating_groups',         views.doctor_evaluating_groups ,         name='doctor_evaluating_groups'),
     path('doctor_show_my_group_evaluation',  views.doctor_show_my_group_evaluation ,  name='doctor_show_my_group_evaluation'),
-
     # students paths  
 
     path('loginStudents',                    views.loginStudents,                     name='loginStudents'),

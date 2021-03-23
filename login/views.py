@@ -4,7 +4,11 @@ from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
+<<<<<<< HEAD
 from .forms import Add_Idea, CRN, Doc, Stu, Distrbution,Cho
+=======
+from .forms import Add_Idea, CRN, Doc, Stu, Distrbution, Add_GRP
+>>>>>>> upstream/master
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -90,7 +94,6 @@ def committee_add_idea(request):
     return render(request, 'pages_Committee/add_idea.html',context)
 
 def show_suggested_idea(request):
-    
     context={
             'project':Projects.objects.all(),
             
@@ -192,41 +195,58 @@ def distrbution_doctors_to_groups(request):
     distrbution_doctors = {
         'evaluation' : Evaluation.objects.exclude(id_doctor_fk = None),
         'evaluator' : Evaluation.objects.filter( Q(id_doctor_fk = None) | Q(id_doctor_fk2 = None) | Q(id_doctor_fk2 = None) ).exclude(id_groups_fk = None),
+        'evaluators': Evaluation.objects.all()
         }
     return render(request, 'pages_Committee/distrbution_doctors_to_groups.html', distrbution_doctors)
 
-# def distrbution_update(request, id):
-#     evaluator1 = Evaluation.objects.get(id_doctor_fk = id)
-#     # evaluator2 = Evaluation.objects.get(id_doctor_fk2 = id)
-#     # evaluator3 = Evaluation.objects.get(id_doctor_fk3 = id)
-#     if request.method == "POST":
-#         evaluator1_save = Distrbution(request.POST, instance = evaluator1)
-#         # evaluator2_save = Distrbution(request.POST, instance = evaluator2)
-#         # evaluator3_save = Distrbution(request.POST, instance = evaluator3)
-#         if evaluator1_save.is_valid():
-#             evaluator1_save.save()
-#             # evaluator2_save.save()
-#             # evaluator3_save.save()
-#             redirect('/distrbution_doctors_to_groups')
-#     else:
-#         evaluator1_save = Distrbution(instance = evaluator1)
-#         # evaluator2_save = Distrbution(instance = evaluator2)
-#         # evaluator3_save = Distrbution(instance = evaluator3)
-#     context={
-#         'form':evaluator1_save
+redirect_distrbution_page = '/distrbution_doctors_to_groups'
+path_distrbution_update = 'pages_Committee/distrbution_update.html'
 
-#     }
-#     return render(request,'pages_Committee/distrbution_update.html', context)
+def distrbution_update(request,id):
+    evaluators = Evaluation.objects.get(id_evaluation = id)
+    if request.method == "POST":
+        evaluator_save = Distrbution(request.POST, instance = evaluators)
+        if evaluator_save.is_valid():
+            evaluator_save.save()
+            return redirect(redirect_distrbution_page) 
+    else:
+        evaluator_save = Distrbution(instance = evaluators)
+
+    context={
+        'evaluator_from':evaluator_save,
+    }
+    return render(request, 'pages_Committee/distrbution_update.html', context)
+
 # doctors views
 
 def doctors_home(request):
     return render(request, 'pages_Doctors/home.html')
 
+
 def doctor_show_idea(request):
-    return render(request, 'pages_Doctors/doctor_show_idea.html')
+    context = {
+    
+        'show':Groups.objects.all(),
+        'proj':Projects.objects.all(),
+    }
+    return render(request, 'pages_Doctors/doctor_show_idea.html', context)
 
 def doctor_create_group(request):
-    return render(request, 'pages_Doctors/doctor_create_group.html')
+    context = {
+        'std':Students.objects.all(),
+        'hi':Add_GRP(),
+    }
+    return render(request, 'pages_Doctors/doctor_create_group.html', context)
+
+def crete_grp(request):
+    if request.method=="POST":
+        if request.POST.get('std_id'):
+                savedata=Groups()
+                savedata.id_groups=request.POST.get('std_id')
+                savedata.save()
+                return render(request,'pages_Doctors/doctor_create_group.html')
+    else:
+                return render(request,'pages_Doctors/doctor_create_group.html')
 
 def doctor_modification_the_group(request):
     return render(request, 'pages_Doctors/doctor_modification_the_group.html')
