@@ -1,0 +1,82 @@
+{%extends 'baisc_doctors.html'%}
+
+
+{%block content%}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+       $(document).ready(function()
+           {
+             $('.chkbox').click(function() 
+             {
+                var txt="";
+                $('.chkbox:checked').each(function() 
+                {
+                   txt+=$(this).val()+""
+                });
+                $('#chktext').val(txt);
+             });
+           });
+       
+</script>
+<style>
+  .container{
+    text-align: center;
+  }
+  button{
+    margin-left:10px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+        <table class="table table-bordered">
+          <thead>
+                <br>
+                <br>
+                <br>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Group ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">File</th>
+                <th scope="col">Choose</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for x in proj  %}
+
+                <tr>
+                <th scope="row">#</th>
+                
+                  <td>{{x.id_groups_fk}}</td>
+                  <td>{{x.name_projects}}</td>
+                  <td>{{x.descriotion_projects}}</td>
+                  <td><a href="{{ x.file_project.url }}">Download  </a></td>
+                  <td><input type="radio" value="{{x.id_groups_fk}}" name="std_id"  class="chkbox" > </td>
+
+                  {% endfor %}
+
+                </tr>
+                
+                
+            </tbody>
+          </table>
+          <br>
+          <input id="chktext" type="text" name="std_id" readonly  />
+         <input type="submit" value="Send"/>
+
+          <br>
+          <br>
+          <br>
+            
+  </div>
+          
+  </body>
+</html> 
+{%endblock%}

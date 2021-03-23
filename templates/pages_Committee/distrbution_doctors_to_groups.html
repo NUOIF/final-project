@@ -1,0 +1,50 @@
+{% extends 'basic_committee.html' %}
+
+
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <body>
+        <form method="GET">
+            <div class="container">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col"> Evaluation ID</th>
+                            <th scope="col"> Group ID </th>            
+                            <th scope="col"> Evaluator 1 </th>
+                            <th scope="col"> Evaluator 2 </th>
+                            <th scope="col"> Evaluator 3 </th>
+                            <th scope="col"> Edit </th>     
+                            <th scope="col"> Delete Evaluate </th>                 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for eval in evaluators %}
+                                <td>{{ eval.id_evaluation }}</td>
+                                <td>{{ eval.id_groups_fk  }}</td>
+                                <td>{{ eval.id_doctor_fk  }}<br></td>
+                                <td>{{ eval.id_doctor_fk2 }}<br></td>
+                                <td>{{ eval.id_doctor_fk3 }}<br></td>
+                                <td><a href="{% url 'distrbution_update' eval.id_evaluation %}"><button type="button" class="btn btn-primary">Modify</button></a></td>
+                                <td><a><button class="btn btn-danger">Delete</button></a></td>
+                        </tr>
+                            {% endfor %}
+                            
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </body>
+</html>
+
+{% endblock %}
+    

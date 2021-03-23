@@ -25,7 +25,7 @@ SECRET_KEY = '6uybiny5f()4z$ndza6ks$%t22fh(@*&)c6+&3-y1l4j(0%1=o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.8.142','127.0.0.1']
 
 
 # Application definition
@@ -37,15 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'committeeChairs.apps.CommitteechairsConfig', # i added committee chairs app
-    'students.apps.StudentsConfig', # i added students app
-    'doctors.apps.DoctorsConfig', # i added doctors app
-    'Department.apps.DepartmentConfig',
-    'Evaluation.apps.EvaluationConfig',
-    'Groups.apps.GroupsConfig',
-    'Examiners.apps.ExaminersConfig',
-    'projects.apps.ProjectsConfig',
+    'login.apps.LoginConfig',
+    'crispy_forms',
+
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,11 +80,11 @@ WSGI_APPLICATION = 'theProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'projectDB',
-        'HOST': '127.0.0.1',
+        'NAME': 'project',
+        'HOST': 'localhost',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': 'Hh384812*1',
+        'PASSWORD': '',
         'OPTIONS': {"init_command": "SET foreign_key_checks = 0;",
         },
     }
@@ -134,3 +130,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[
     os.path.join(BASE_DIR, 'theProject/static')
 ]
+#media files
+#Create the media for images or files that are uploaded to the database(؛
+MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+MEDIA_URL='/media/'
