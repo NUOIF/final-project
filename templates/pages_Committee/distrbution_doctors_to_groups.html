@@ -17,21 +17,28 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            <th scope="col"> Evaluation ID</th>
                             <th scope="col"> Group ID </th>            
                             <th scope="col"> Evaluator 1 </th>
                             <th scope="col"> Evaluator 2 </th>
-                            <th scope="col"> Evaluator 3 </th>                 
+                            <th scope="col"> Evaluator 3 </th>
+                            <th scope="col"> Edit </th>     
+                            <th scope="col"> Delete Evaluate </th>                 
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            {% for eval in evaluator %}
+                            {% for eval in evaluators %}
+                                <td>{{ eval.id_evaluation }}</td>
                                 <td>{{ eval.id_groups_fk  }}</td>
-                                <td>{{ eval.id_doctor_fk  }}<br><a href="#">Add</a></td>
-                                <td>{{ eval.id_doctor_fk2 }}<br><a href="#">Add</a></td>
-                                <td>{{ eval.id_doctor_fk3 }}<br><a href="#">Add</a></td>
+                                <td>{{ eval.id_doctor_fk  }}<br></td>
+                                <td>{{ eval.id_doctor_fk2 }}<br></td>
+                                <td>{{ eval.id_doctor_fk3 }}<br></td>
+                                <td><a href="{% url 'distrbution_update' eval.id_evaluation %}"><button type="button" class="btn btn-primary">Modify</button></a></td>
+                                <td><a><button class="btn btn-danger">Delete</button></a></td>
                         </tr>
                             {% endfor %}
+                            
                     </tbody>
                 </table>
             </div>

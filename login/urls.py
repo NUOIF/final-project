@@ -21,8 +21,7 @@ urlpatterns = [
     path('<int:id>/CRN_update/',             views.CRN_update,                        name='CRN_update'),#Url for page update
     path('<int:id>/Doctor_update/',          views.Doctor_update,                     name='Doctor_update'),
     path('<int:id>/Student_update',          views.Student_update,                    name='Student_update'),
-    #path('<int:id>/distrbution_update/',     views.distrbution_update,                name='distrbution_update'),
-    
+    path('distrbution_update/<int:id>',      views.distrbution_update,                name='distrbution_update'),
 
     # doctors paths   
 
