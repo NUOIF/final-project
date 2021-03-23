@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
-from .forms import Add_Idea, CRN, Doc, Stu, Distrbution
+from .forms import Add_Idea, CRN, Doc, Stu, Distrbution, Add_GRP
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -219,11 +219,31 @@ def distrbution_doctors_to_groups(request):
 def doctors_home(request):
     return render(request, 'pages_Doctors/home.html')
 
+
 def doctor_show_idea(request):
-    return render(request, 'pages_Doctors/doctor_show_idea.html')
+    context = {
+    
+        'show':Groups.objects.all(),
+        'proj':Projects.objects.all(),
+    }
+    return render(request, 'pages_Doctors/doctor_show_idea.html', context)
 
 def doctor_create_group(request):
-    return render(request, 'pages_Doctors/doctor_create_group.html')
+    context = {
+        'std':Students.objects.all(),
+        'hi':Add_GRP(),
+    }
+    return render(request, 'pages_Doctors/doctor_create_group.html', context)
+
+def crete_grp(request):
+    if request.method=="POST":
+        if request.POST.get('std_id'):
+                savedata=Groups()
+                savedata.id_groups=request.POST.get('std_id')
+                savedata.save()
+                return render(request,'pages_Doctors/doctor_create_group.html')
+    else:
+                return render(request,'pages_Doctors/doctor_create_group.html')
 
 def doctor_modification_the_group(request):
     return render(request, 'pages_Doctors/doctor_modification_the_group.html')

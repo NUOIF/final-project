@@ -33,7 +33,6 @@ urlpatterns = [
     path('doctor_modification_the_group',    views.doctor_modification_the_group ,    name='doctor_modification_the_group'),
     path('doctor_evaluating_groups',         views.doctor_evaluating_groups ,         name='doctor_evaluating_groups'),
     path('doctor_show_my_group_evaluation',  views.doctor_show_my_group_evaluation ,  name='doctor_show_my_group_evaluation'),
-
     # students paths  
 
     path('loginStudents',                    views.loginStudents,                     name='loginStudents'),

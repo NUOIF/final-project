@@ -55,4 +55,12 @@ class Stu(forms.ModelForm):
 
         widgets ={
             'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
-        } 
+        }
+
+class Add_GRP(forms.ModelForm):
+    class Meta:
+        model = Students
+        fields=['id_groups_fk']      
+        
+        widgets =forms.CheckboxSelectMultiple(attrs={'class':'form-control'}),
+        
