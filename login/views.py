@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
-from .forms import Add_Idea, CRN, Doc, Stu, Distrbution
+from .forms import Add_Idea, CRN, Doc, Stu, Distrbution,Cho
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -243,8 +243,46 @@ def doctor_show_my_group_evaluation(request):
 def student_home(request):
     return render(request, 'pages_students/student_home.html')
 
+
+    
+
+
+
 def student_show_the_department_idea(request):
-    return render(request, 'pages_students/student_show_the_department_idea.html')
+    if request.method =='POST':
+        ge = Cho(request.POST)
+        if ge.is_valid():
+            ge.save()
+    context={
+
+        'froms':Cho(),
+        'project':Projects.objects.all(),   
+    }
+    return render(request, 'pages_students/student_show_the_department_idea.html',context)
+
+
+def Chose_Enter(request,id):
+    Group = Projects.objects.get(id_projects=id)
+    if request.method =='POST':
+        Chose_save = Cho(request.POST,request.FILES, instance=Group)
+        if Chose_save.is_valid():
+            Chose_save.save()
+            return redirect('/student_show_the_department_idea')
+    else:
+        Chose_save = Cho(instance=Group)
+    context={
+        'from':Chose_save
+    }
+    return render(request,'pages_students/Chose_Enter.html', context)
+
+
+
+
+
+
+
+
+
 
 def student_show_archived_idea(request):
     return render(request, 'pages_students/student_show_archived_idea.html')
