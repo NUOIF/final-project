@@ -41,6 +41,8 @@ class Groups(models.Model):
 
     def __str__(self):
         return str(self.id_groups)
+    # def __str__(self):
+    #     return (self.name_groups)
 
 
 
