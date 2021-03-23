@@ -87,7 +87,6 @@ def committee_add_idea(request):
     return render(request, 'pages_Committee/add_idea.html',context)
 
 def show_suggested_idea(request):
-    
     context={
             'project':Projects.objects.all(),
             
@@ -189,31 +188,28 @@ def distrbution_doctors_to_groups(request):
     distrbution_doctors = {
         'evaluation' : Evaluation.objects.exclude(id_doctor_fk = None),
         'evaluator' : Evaluation.objects.filter( Q(id_doctor_fk = None) | Q(id_doctor_fk2 = None) | Q(id_doctor_fk2 = None) ).exclude(id_groups_fk = None),
+        'evaluators': Evaluation.objects.all()
         }
     return render(request, 'pages_Committee/distrbution_doctors_to_groups.html', distrbution_doctors)
 
-# def distrbution_update(request, id):
-#     evaluator1 = Evaluation.objects.get(id_doctor_fk = id)
-#     # evaluator2 = Evaluation.objects.get(id_doctor_fk2 = id)
-#     # evaluator3 = Evaluation.objects.get(id_doctor_fk3 = id)
-#     if request.method == "POST":
-#         evaluator1_save = Distrbution(request.POST, instance = evaluator1)
-#         # evaluator2_save = Distrbution(request.POST, instance = evaluator2)
-#         # evaluator3_save = Distrbution(request.POST, instance = evaluator3)
-#         if evaluator1_save.is_valid():
-#             evaluator1_save.save()
-#             # evaluator2_save.save()
-#             # evaluator3_save.save()
-#             redirect('/distrbution_doctors_to_groups')
-#     else:
-#         evaluator1_save = Distrbution(instance = evaluator1)
-#         # evaluator2_save = Distrbution(instance = evaluator2)
-#         # evaluator3_save = Distrbution(instance = evaluator3)
-#     context={
-#         'form':evaluator1_save
+redirect_distrbution_page = '/distrbution_doctors_to_groups'
+path_distrbution_update = 'pages_Committee/distrbution_update.html'
 
-#     }
-#     return render(request,'pages_Committee/distrbution_update.html', context)
+def distrbution_update(request,id):
+    evaluators = Evaluation.objects.get(id_evaluation = id)
+    if request.method == "POST":
+        evaluator_save = Distrbution(request.POST, instance = evaluators)
+        if evaluator_save.is_valid():
+            evaluator_save.save()
+            return redirect(redirect_distrbution_page) 
+    else:
+        evaluator_save = Distrbution(instance = evaluators)
+
+    context={
+        'evaluator_from':evaluator_save,
+    }
+    return render(request, 'pages_Committee/distrbution_update.html', context)
+
 # doctors views
 
 def doctors_home(request):
