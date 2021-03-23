@@ -1,15 +1,17 @@
 import os
+from typing import ContextManager
 from django.shortcuts import render 
 from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
-from .forms import Add_Idea, CRN, Doc, Stu, Distrbution, Add_GRP
+from .forms import Add_Idea, CRN, Doc, Stu, Distrbution ,CreateGroupsForm  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP 
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
 from .models import Doctors,CommitteesCharis,Students,Groups 
 from django.shortcuts import redirect
+from .models import *
 
 # Login Pages
 
@@ -22,6 +24,10 @@ message_error_reason = " the username or password are invalid - please try again
 
 def login(request):
     return render(request, "login.html")
+
+
+
+
 
 
 def loginCommittee(request):
@@ -38,6 +44,12 @@ def loginCommittee(request):
     return render(request, "pages_login/loginCommittee.html")
 
 
+
+
+
+
+
+
 def loginDoctors(request):
     if request.method=="POST":
         try:
@@ -50,6 +62,13 @@ def loginDoctors(request):
         except Doctors.DoesNotExist as doctorNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
     return render(request, "pages_login/loginDoctors.html")
+
+
+
+
+
+
+
 
 def loginStudents(request):
     if request.method=="POST":
@@ -66,10 +85,22 @@ def loginStudents(request):
     return render(request, "pages_login/loginStudents.html")
 
 
+
+
+
+
+
+
+
+
 ## committee chairs views
 
 def committee_home(request):
     return render(request, 'pages_Committee/home.html')
+
+
+
+
 
 
 def committee_add_idea(request):
@@ -86,6 +117,12 @@ def committee_add_idea(request):
     }
     return render(request, 'pages_Committee/add_idea.html',context)
 
+
+
+
+
+    
+
 def show_suggested_idea(request):
     context={
             'project':Projects.objects.all(),
@@ -94,8 +131,25 @@ def show_suggested_idea(request):
     return render(request, 'pages_Committee/show_suggested_idea.html',context)
 
 
+
+
+
+
+
+
+
 def committee_show_idea(request):    
     return render(request, 'pages_Committee/show_idea.html')
+
+
+
+
+
+
+
+
+
+
 
 def modifying_groups(request):
     if request.method =='POST':
@@ -113,6 +167,16 @@ def modifying_groups(request):
     }
     return render(request,'pages_Committee/modifying_groups.html', context)
 
+
+
+
+
+
+
+
+
+
+
 def Student_update(request,id):
     id_Stu = Students.objects.get(id_students=id)
     if request.method =='POST':
@@ -126,9 +190,27 @@ def Student_update(request,id):
         
     context={
         'std_forms':stu_save
+        
+
+      
+        
 
     }
     return render(request,'pages_Committee/Student_update.html', context)
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
 
 def Doctor_update(request,id):
     id_GRO = Doctors.objects.get(id_doctors=id)
@@ -148,6 +230,11 @@ def Doctor_update(request,id):
     return render(request,'pages_Committee/Doctor_update.html', context)
 
 
+
+
+
+
+
 def Add_CRN(request):
     if request.method =='POST':
         cr = CRN(request.POST)
@@ -159,6 +246,11 @@ def Add_CRN(request):
         'groub':Groups.objects.all(),
     }
     return render(request, 'pages_Committee/Add_CRN.html',context)
+
+
+
+
+
 
 
 #CRNهنا سويت فنكشن عشان اقدر اسوي تعديل ل 
@@ -180,9 +272,22 @@ def CRN_update(request,id):
     return render(request,'pages_Committee/CRN_update.html', context)
 
 
+
+
+
+
+
+
 def show_evaluation(request):
     evaluate = {'evaluation' : Evaluation.objects.all()}
     return render(request, 'pages_Committee/show_evaluation.html', evaluate)
+
+
+
+
+
+
+
 
 def distrbution_doctors_to_groups(request):
     distrbution_doctors = {
@@ -260,13 +365,30 @@ def student_show_the_department_idea(request):
     return render(request, 'pages_students/student_show_the_department_idea.html')
 
 def student_show_archived_idea(request):
-    return render(request, 'pages_students/student_show_archived_idea.html')
+     context = {
+         'archiveed': Projects.objects.all(),
+     }
+     return render(request, 'pages_students/student_show_archived_idea.html' ,context)
 
 def student_upload_project(request):
-    return render(request, 'pages_students/student_upload_project.html')
+    context ={
+
+         'Upload_form': UploadIdeaForm()
+    }
+    return render(request, 'pages_students/student_upload_project.html' ,context)
 
 def student_create_groups(request):
-    return render(request, 'pages_students/student_create_groups.html')
+    context ={
+
+         'form': CreateGroupsForm()
+    }
+    return render(request, 'pages_students/student_create_groups.html' ,context)
 
 def student_dont_groups(request):
-    return render(request, 'pages_students/student_dont_groups.html')
+     context ={
+
+         'dont_have_groupe_form': dont_have_groupeFORM()
+     }
+     return render(request, 'pages_students/student_dont_groups.html' ,context)
+
+

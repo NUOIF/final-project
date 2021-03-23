@@ -13,6 +13,9 @@ class Doc(forms.ModelForm):
         } 
 
 
+
+
+
 class Distrbution(forms.ModelForm):
     class Meta:
         model= Evaluation
@@ -25,6 +28,9 @@ class Distrbution(forms.ModelForm):
             'id_doctor_fk3':forms.Select(),
         } 
         
+
+
+
 class CRN(forms.ModelForm):
     class Meta:
         model= Groups
@@ -34,6 +40,9 @@ class CRN(forms.ModelForm):
         widgets ={
             'name_Groups':forms.TextInput(attrs={'class':'form-control'}),
         } 
+
+
+
 
 class Add_Idea(forms.ModelForm):
     class Meta:
@@ -49,6 +58,10 @@ class Add_Idea(forms.ModelForm):
             'status':forms.Select(attrs={'class':'form-control'}),
         } 
 
+
+
+
+
 class Stu(forms.ModelForm):
     class Meta:
         model= Students
@@ -57,7 +70,64 @@ class Stu(forms.ModelForm):
 
         widgets ={
             'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
-        }
+        } 
+
+
+
+
+
+
+
+
+
+class CreateGroupsForm(forms.ModelForm):
+     class Meta:
+         model = Students
+         fields=['name_Students','id_groups_fk']
+
+         widgets ={
+              
+              
+               'name_Students':forms.TextInput(attrs={'class':'form-control'}),
+                'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
+             
+
+
+           } 
+
+
+
+
+class dont_have_groupeFORM(forms.ModelForm):
+    class Meta:
+        model= Students
+        fields=['name_Students']
+
+
+        widgets ={
+            'name_Students':forms.TextInput(attrs={'class':'form-control'}),
+        } 
+
+
+
+
+
+class UploadIdeaForm(forms.ModelForm):
+    class Meta:
+        model= Projects
+        fields=['id_groups_fk','name_projects','descriotion_projects','file_project','id_Doctors_fk','status']
+
+
+        widgets ={
+            'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
+            'name_projects':forms.TextInput(attrs={'class':'form-control'}),
+            'descriotion_projects':forms.TextInput(attrs={'class':'form-control'}),
+            'file_project':forms.FileInput(attrs={'class':'form-control'}),
+            'id_Doctors_fk':forms.Select(attrs={'class':'form-control'}),
+            'status':forms.Select(attrs={'class':'form-control'}),
+
+        } 
+        
 
 class Add_GRP(forms.ModelForm):
     class Meta:
