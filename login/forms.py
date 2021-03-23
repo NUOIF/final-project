@@ -19,11 +19,13 @@ class Doc(forms.ModelForm):
 class Distrbution(forms.ModelForm):
     class Meta:
         model= Evaluation
-        fields=['id_doctor_fk']
-#, 'id_doctor_fk2', 'id_doctor_fk3'
+        fields=['id_doctor_fk', 'id_doctor_fk2', 'id_doctor_fk3']
+#
 
         widgets ={
-            'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
+            'id_doctor_fk ':forms.Select(),
+            'id_doctor_fk2':forms.Select(),
+            'id_doctor_fk3':forms.Select(),
         } 
         
 
@@ -125,3 +127,12 @@ class UploadIdeaForm(forms.ModelForm):
             'status':forms.Select(attrs={'class':'form-control'}),
 
         } 
+        
+
+class Add_GRP(forms.ModelForm):
+    class Meta:
+        model = Students
+        fields=['id_groups_fk']      
+        
+        widgets =forms.CheckboxSelectMultiple(attrs={'class':'form-control'}),
+        
