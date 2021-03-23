@@ -12,6 +12,11 @@ class Department(models.Model):
         managed = False
         db_table = 'department'
 
+
+
+
+
+
 class CommitteesCharis(models.Model):
     id_committees_charis = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     name_committees_charis = models.CharField(max_length=45, blank=True, null=True,default="nothing")
@@ -23,6 +28,11 @@ class CommitteesCharis(models.Model):
     class Meta:
         managed = False
         db_table = 'committees_charis'
+
+
+
+
+
 
 
 class Groups(models.Model):
@@ -40,6 +50,12 @@ class Groups(models.Model):
         managed = False
         db_table = '_groups'
 
+
+
+
+
+
+
 class Doctors(models.Model):
     id_doctors = models.AutoField(db_column='id_Doctors', primary_key=True)  # Field name made lowercase.
     name_doctors = models.CharField(db_column='name_Doctors', max_length=45, blank=True, null=True)  # Field name made lowercase.
@@ -48,11 +64,18 @@ class Doctors(models.Model):
     id_groups_fk = models.ForeignKey(Groups, models.DO_NOTHING, db_column='id_Groups_fk', blank=True, null=True)  # Field name made lowercase.
     id_bu = models.IntegerField(blank=True, null=True)
     def __str__(self):
-        return str(self.id_doctors)
+        return str(self.name_doctors)
 
     class Meta:
         managed = False
         db_table = 'doctors'
+
+
+
+
+
+
+
 
 class Projects(models.Model):
     status_project=[
@@ -76,6 +99,12 @@ class Projects(models.Model):
 
 
 
+
+
+
+
+
+
 class Evaluation(models.Model):
     id_evaluation = models.AutoField(db_column='id_Evaluation', primary_key=True)  # Field name made lowercase.
     gread_evaluation = models.CharField(max_length=45, blank=True, null=True)
@@ -90,6 +119,14 @@ class Evaluation(models.Model):
     class Meta:
         managed = False
         db_table = 'evaluation'
+
+
+
+
+
+
+
+
 class Examiners(models.Model):
     id_examiners = models.AutoField(db_column='id_Examiners', primary_key=True)  # Field name made lowercase.
     name_examiners = models.CharField(db_column='name_Examiners', max_length=45, blank=True, null=True)  # Field name made lowercase.
@@ -98,6 +135,10 @@ class Examiners(models.Model):
     class Meta:
         managed = False
         db_table = 'examiners'
+
+
+
+
 
 
 class Students(models.Model):
