@@ -5,7 +5,15 @@ from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
+<<<<<<< HEAD
+<<<<<<< HEAD
+from .forms import Add_Idea, CRN, Doc, Stu, Distrbution,Cho
+=======
+from .forms import Add_Idea, CRN, Doc, Stu, Distrbution, Add_GRP
+>>>>>>> upstream/master
+=======
 from .forms import Add_Idea, CRN, Doc, Stu, Distrbution ,CreateGroupsForm  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP 
+>>>>>>> upstream/master
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -38,7 +46,7 @@ def loginCommittee(request):
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
-            return render(request, 'basic_committee.html')
+            return render(request, 'pages_Committee/home.html')
         except CommitteesCharis.DoesNotExist as committeeNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
     return render(request, "pages_login/loginCommittee.html")
@@ -58,7 +66,7 @@ def loginDoctors(request):
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
-            return render(request, 'baisc_doctors.html')
+            return render(request, 'pages_Doctors/home.html')
         except Doctors.DoesNotExist as doctorNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
     return render(request, "pages_login/loginDoctors.html")
@@ -79,7 +87,7 @@ def loginStudents(request):
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
             hisname = {'stdName':request.POST.get('username')}
-            return render(request, 'baisc_students.html',hisname)
+            return render(request, 'pages_Students/home.html',hisname)
         except Students.DoesNotExist as studentNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
     return render(request, "pages_login/loginStudents.html")
@@ -102,7 +110,10 @@ def committee_home(request):
 
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> upstream/master
 def committee_add_idea(request):
     
     if request.method =='POST':
@@ -361,8 +372,46 @@ def doctor_show_my_group_evaluation(request):
 def student_home(request):
     return render(request, 'pages_students/student_home.html')
 
+
+    
+
+
+
 def student_show_the_department_idea(request):
-    return render(request, 'pages_students/student_show_the_department_idea.html')
+    if request.method =='POST':
+        ge = Cho(request.POST)
+        if ge.is_valid():
+            ge.save()
+    context={
+
+        'froms':Cho(),
+        'project':Projects.objects.all(),   
+    }
+    return render(request, 'pages_students/student_show_the_department_idea.html',context)
+
+
+def Chose_Enter(request,id):
+    Group = Projects.objects.get(id_projects=id)
+    if request.method =='POST':
+        Chose_save = Cho(request.POST,request.FILES, instance=Group)
+        if Chose_save.is_valid():
+            Chose_save.save()
+            return redirect('/student_show_the_department_idea')
+    else:
+        Chose_save = Cho(instance=Group)
+    context={
+        'from':Chose_save
+    }
+    return render(request,'pages_students/Chose_Enter.html', context)
+
+
+
+
+
+
+
+
+
 
 def student_show_archived_idea(request):
      context = {

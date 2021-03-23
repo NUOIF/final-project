@@ -47,7 +47,7 @@ class CRN(forms.ModelForm):
 class Add_Idea(forms.ModelForm):
     class Meta:
         model =Projects
-        fields=['name_projects','filled_projects','descriotion_projects','file_project','id_projects','id_Doctors_fk','status']
+        fields=['name_projects','filled_projects','descriotion_projects','file_project','id_projects','id_Doctors_fk','status','id_groups_fk']
 
         widgets ={
             'id_projects':forms.TextInput(attrs={'class':'form-control'}),
@@ -74,6 +74,14 @@ class Stu(forms.ModelForm):
 
 
 
+class Cho(forms.ModelForm):
+    class Meta:
+        model= Projects
+        fields=['id_groups_fk']
+        widgets ={
+            'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
+        } 
+        
 
 
 
@@ -81,19 +89,19 @@ class Stu(forms.ModelForm):
 
 
 class CreateGroupsForm(forms.ModelForm):
-     class Meta:
-         model = Students
-         fields=['name_Students','id_groups_fk']
+    class Meta:
+        model = Students
+        fields=['name_Students','id_groups_fk']
 
-         widgets ={
-              
-              
-               'name_Students':forms.TextInput(attrs={'class':'form-control'}),
+        widgets ={
+            
+            
+            'name_Students':forms.TextInput(attrs={'class':'form-control'}),
                 'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
-             
+        
 
 
-           } 
+        } 
 
 
 
