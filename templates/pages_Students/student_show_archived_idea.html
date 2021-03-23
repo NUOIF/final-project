@@ -1,6 +1,83 @@
 {% extends 'baisc_students.html' %}
 
 {% block content %}
-    <h3>Archive idea</h3>   
-{% endblock content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+
+</head>
+
+<body>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .add-crn {
+        padding-top:10px;
+        margin-top:10px;
+    }
+</style>
+</head>
+<body>
+
+<form class="add-crn">
+  <div class="container">
     
+
+    <table class="table table-bordered">
+      <thead>
+            
+          <tr>
+            <th scope="col">Group ID</th>            
+            <th scope="col">Title</th>            
+            <th scope="col">Description</th>   
+            <th scope="col">File</th>            
+            <th scope="col">Supervisor</th>            
+            <th scope="col">status</th>           
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+               {% for gr in archiveed %}
+             
+              <td>{{gr.id_groups_fk}}</td>
+              <td>{{gr.name_projects}}</td>
+              <td>{{gr.descriotion_projects}}</td>
+             
+              <td>
+                <a href="{{gr.file_project.url}}"Dwonload="gr.file_project.url">Dwonload Files</a>
+                </td>
+              <td>{{gr.id_Doctors_fk}}</td>
+              <td>{{gr.status}}</td>
+              
+              
+             
+              
+            </tr>
+             {% endfor %}
+             
+        </tbody>
+      </table>
+      
+  </div>
+
+  
+</form>
+
+</body>
+
+</html>
+
+
+
+
+
+{%endblock%}
