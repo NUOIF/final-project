@@ -74,6 +74,15 @@ class Stu(forms.ModelForm):
 
 
 
+class ChoiceIdea(forms.ModelForm):
+    class Meta:
+        model= Students
+        fields=['id_groups_fk']
+        widgets ={
+            'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
+        } 
+        
+
 
 
 
@@ -98,18 +107,16 @@ class dont_have_groupeFORM(forms.ModelForm):
 
 class UploadIdeaForm(forms.ModelForm):
     class Meta:
-        model= Projects
-        fields=['id_groups_fk','name_projects','descriotion_projects','file_project','id_Doctors_fk','status']
-
+        model = Projects
+        fields=['name_projects','filled_projects','descriotion_projects','file_project','id_projects','status']
 
         widgets ={
-            'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
+            'id_projects':forms.TextInput(attrs={'class':'form-control'}),
             'name_projects':forms.TextInput(attrs={'class':'form-control'}),
+            'filled_projects':forms.TextInput(attrs={'class':'form-control'}),
             'descriotion_projects':forms.TextInput(attrs={'class':'form-control'}),
             'file_project':forms.FileInput(attrs={'class':'form-control'}),
-            'id_Doctors_fk':forms.Select(attrs={'class':'form-control'}),
             'status':forms.Select(attrs={'class':'form-control'}),
-
         } 
 
 

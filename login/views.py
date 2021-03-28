@@ -6,12 +6,12 @@ from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
 from .forms import Add_Idea, CRN, Doc, Stu, Distrbution   ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP ,updeateForm     
+from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP, ChoiceIdea  ,updeateForm
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
 from .models import Doctors,CommitteesCharis,Students,Groups 
 from django.shortcuts import redirect
-from .models import *
 
 # Login Pages
 
@@ -78,8 +78,8 @@ def loginStudents(request):
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
-            hisname = {'stdName':request.POST.get('username')}
-            return render(request, 'pages_Students/home.html',hisname)
+            request.session['name'] = request.POST.get('username')
+            return render(request, 'pages_Students/student_home.html')
         except Students.DoesNotExist as studentNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
     return render(request, "pages_login/loginStudents.html")
@@ -184,32 +184,12 @@ def Student_update(request,id):
         if stu_save.is_valid():
             stu_save.save()
             return redirect('/modifying_groups')
-
     else:
-        stu_save = Stu(instance=id_Stu)
-        
+        stu_save = Stu(instance=id_Stu)    
     context={
         'std_forms':stu_save
-        
-
-      
-        
-
     }
     return render(request,'pages_Committee/Student_update.html', context)
-
-
- 
-
-
-
-
-
-
-
-
-
-
 
 
 def Doctor_update(request,id):
@@ -359,35 +339,35 @@ def doctor_show_my_group_evaluation(request):
 # students views
 
 def student_home(request):
-    return render(request, 'pages_students/student_home.html')
+    return render(request, 'pages_Students/student_home.html')
 
-
-    
 
 
 
 def student_show_the_department_idea(request):
     if request.method =='POST':
-        ge = Cho(request.POST)
+        ge = ChoiceIdea(request.POST)
         if ge.is_valid():
             ge.save()
+            re = request.session['id_groups_fk'] = request.POST.get('id_groups_fk')
+            print(re)
     context={
-
-        'froms':Cho(),
-        'project':Projects.objects.all(),   
+        'froms':ChoiceIdea(),
+        'project':Projects.objects.all(),
+        'choiceidea':Students.objects.all(),   
     }
-    return render(request, 'pages_students/student_show_the_department_idea.html',context)
+    return render(request, 'pages_Students/student_show_the_department_idea.html',context)
 
 
 def Chose_Enter(request,id):
-    Group = Projects.objects.get(id_projects=id)
+    Group = Students.objects.get(id_students=id)
     if request.method =='POST':
-        Chose_save = Cho(request.POST,request.FILES, instance=Group)
+        Chose_save = ChoiceIdea(request.POST,instance=Group)
         if Chose_save.is_valid():
             Chose_save.save()
             return redirect('/student_show_the_department_idea')
     else:
-        Chose_save = Cho(instance=Group)
+        Chose_save = ChoiceIdea(instance=Group)
     context={
         'from':Chose_save
     }
@@ -403,24 +383,23 @@ def Chose_Enter(request,id):
 
 
 def student_show_archived_idea(request):
-     context = {
-         'archiveed': Projects.objects.all(),
-     }
-     return render(request, 'pages_students/student_show_archived_idea.html' ,context)
+    context = {
+        'archiveed': Projects.objects.all(),
+    }
+    return render(request, 'pages_students/student_show_archived_idea.html' ,context)
 
 
      
 
 def student_upload_project(request):
     if request.method =='POST':
-        upload = Add_Idea(request.POST, request.FILES)
+        upload = UploadIdeaForm(request.POST, request.FILES)
         if upload.is_valid():
             upload.save()
-            return redirect('student_upload_project')
+            return redirect('student_show_archived_idea')
 
     context ={
-
-         'Upload_form': UploadIdeaForm()
+        'Upload_form': UploadIdeaForm(),
     }
     return render(request, 'pages_students/student_upload_project.html' ,context)
 
@@ -455,11 +434,15 @@ def updat_student_create_group(request,id):
 
 
 
-def student_dont_groups(request):
-     context ={
 
-         'dont_have_groupe_form': dont_have_groupeFORM()
+def student_dont_groups(request):
+    context = {
+         'grops': Students.objects.all(),
      }
-     return render(request, 'pages_students/student_dont_groups.html' ,context)
+    return render(request, 'pages_students/student_dont_groups.html' ,context)
+
+
+
+
 
 
