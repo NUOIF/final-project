@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
-from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution ,CreateGroupsForm  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP, ChoiceIdea , Choose_group
+from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP, ChoiceIdea , Choose_group
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -96,6 +96,7 @@ def loginStudents(request):
 
 def committee_home(request):
     return render(request, 'pages_Committee/home.html')
+
 
 
 
@@ -341,6 +342,7 @@ def student_home(request):
 
 
 
+
 def student_show_the_department_idea(request):
     if request.method =='POST':
         ge = ChoiceIdea(request.POST)
@@ -385,6 +387,9 @@ def student_show_archived_idea(request):
     }
     return render(request, 'pages_students/student_show_archived_idea.html' ,context)
 
+
+     
+
 def student_upload_project(request):
     if request.method =='POST':
         upload = UploadIdeaForm(request.POST, request.FILES)
@@ -423,6 +428,21 @@ def student_dont_groups(request):
     context ={
         'dont_have_groupe_form': dont_have_groupeFORM()
     }
+    return render(request,'pages_students/create_update.html', context)
+
+
+
+
+
+
+def student_dont_groups(request):
+    context = {
+         'grops': Students.objects.all(),
+     }
     return render(request, 'pages_students/student_dont_groups.html' ,context)
+
+
+
+
 
 

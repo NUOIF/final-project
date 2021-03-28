@@ -45,4 +45,6 @@ urlpatterns = [
     path('choose_group/<int:id>',            views.choose_group,                     name='choose_group'),
     
 
+
+
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
