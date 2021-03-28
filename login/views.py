@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
-from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution ,CreateGroupsForm  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP, ChoiceIdea 
+from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution ,CreateGroupsForm  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP, ChoiceIdea , Choose_group
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -400,14 +400,27 @@ def student_upload_project(request):
 
 def student_create_groups(request):
     context ={
-
-        'form': CreateGroupsForm()
+        'students': Students.objects.all()
     }
     return render(request, 'pages_students/student_create_groups.html' ,context)
 
+def choose_group(request,id):
+    choose_group = Students.objects.get(id_students=id)
+    if request.method =='POST':
+        save_group = Choose_group(request.POST,instance=choose_group)
+        if save_group.is_valid():
+            save_group.save()
+            return redirect('/student_create_groups')
+    else:
+        save_group = Choose_group(instance=choose_group)
+    context={
+        'from':save_group
+    }
+    return render(request,'pages_students/choose_group.html', context)
+
+
 def student_dont_groups(request):
     context ={
-
         'dont_have_groupe_form': dont_have_groupeFORM()
     }
     return render(request, 'pages_students/student_dont_groups.html' ,context)
