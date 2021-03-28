@@ -3,80 +3,48 @@
 {% block content %}
 
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
-
-</head>
-
-<body>
-
-
-<!DOCTYPE html>
 <html>
 <head>
-  <style>
-    .add-crn {
-        padding-top:10px;
-        margin-top:10px;
-    }
-</style>
 </head>
 <body>
 
 <form class="add-crn">
-  <div class="container">
-    
+<div class="container">
 
     <table class="table table-bordered">
-      <thead>
-            
-          <tr>
-            <th scope="col">Id Students</th>            
-            <th scope="col">Name Students</th> 
-            <th scope="col">Group</th>           
-               
-                     
-          </tr>
-        </thead>
-        <tbody>
-          
+        <thead>
+                
             <tr>
-               {% for gr in create %}
-             
-              <td>{{gr.id_students}}</td>
-              <td>{{gr.name_Students}}</td>
-
-              <td><a class="dropdown-item" href="{%url 'create_update' gr.id_students%}">Choose A Group</a></td>
-              
-              
-              
-             
-              
+                <th scope="col">Students ID</th>            
+                <th scope="col">Students Name</th>
+                <th scope="col">Group ID</th>                         
+                <th scope="col">Choose Group</th>
             </tr>
-             {% endfor %}
-             
-        </tbody>
-      </table>
-      
-  </div>
+            </thead>
+            <tbody>
+            
+                <tr>
+                
+                    {%for student in students%}
+                
+                <td>{{student.id_students}}</td>
+                <td>{{student.name_Students}}</td>
+                <td>{{student.id_groups_fk}}</td>
+                <td><a class="dropdown-item" href="{%url 'choose_group' student.id_students%}">Choose</a></td>
+                
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    
+</div>
 
-  
+
 </form>
 
 </body>
 
-</html>
-
-
-
-
-
-{%endblock%}
-
-
-
-
+</html> 
+{% endblock content %}
+    

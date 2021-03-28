@@ -41,8 +41,9 @@ urlpatterns = [
     path('student_upload_project',           views.student_upload_project ,           name='student_upload_project'),
     path('student_create_groups',            views.student_create_groups ,            name='student_create_groups'),
     path('student_dont_groups',              views.student_dont_groups ,              name='student_dont_groups'),
-    path('<int:id>/updat_student_create_group', views.updat_student_create_group,     name='create_update'),
     path('Chose_Enter/<int:id>',             views.Chose_Enter,                       name='Chose_Enter'),
+    path('choose_group/<int:id>',            views.choose_group,                     name='choose_group'),
+    
 
 
 

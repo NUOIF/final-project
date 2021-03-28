@@ -5,8 +5,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
-from .forms import Add_Idea, CRN, Doc, Stu, Distrbution   ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP ,updeateForm     
-from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP, ChoiceIdea  ,updeateForm
+from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP, ChoiceIdea , Choose_group
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -404,29 +403,30 @@ def student_upload_project(request):
     return render(request, 'pages_students/student_upload_project.html' ,context)
 
 
-
-
 def student_create_groups(request):
-    context = {
-         'create': Students.objects.all(),
-     }
+    context ={
+        'students': Students.objects.all()
+    }
     return render(request, 'pages_students/student_create_groups.html' ,context)
 
-
-
-  
-
-def updat_student_create_group(request,id):
-    UpCrGr = Students.objects.get(id_students=id)
+def choose_group(request,id):
+    choose_group = Students.objects.get(id_students=id)
     if request.method =='POST':
-        UpCrGr_save = updeateForm(request.POST, instance=UpCrGr)
-        if UpCrGr_save.is_valid():
-            UpCrGr_save.save()
+        save_group = Choose_group(request.POST,instance=choose_group)
+        if save_group.is_valid():
+            save_group.save()
             return redirect('/student_create_groups')
     else:
-        UpCrGr_save = updeateForm(instance=UpCrGr)
+        save_group = Choose_group(instance=choose_group)
     context={
-        'updateFrom':UpCrGr_save
+        'from':save_group
+    }
+    return render(request,'pages_students/choose_group.html', context)
+
+
+def student_dont_groups(request):
+    context ={
+        'dont_have_groupe_form': dont_have_groupeFORM()
     }
     return render(request,'pages_students/create_update.html', context)
 
