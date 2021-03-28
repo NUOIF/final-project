@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
-from .forms import Add_Idea, CRN, Doc, Stu, Distrbution   ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP ,updeateForm    
+from .forms import Add_Idea, CRN, Doc, Stu, Distrbution   ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP ,updeateForm     
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -408,6 +408,9 @@ def student_show_archived_idea(request):
      }
      return render(request, 'pages_students/student_show_archived_idea.html' ,context)
 
+
+     
+
 def student_upload_project(request):
     if request.method =='POST':
         upload = Add_Idea(request.POST, request.FILES)
@@ -437,7 +440,7 @@ def student_create_groups(request):
 def updat_student_create_group(request,id):
     UpCrGr = Students.objects.get(id_students=id)
     if request.method =='POST':
-        UpCrGr_save = updeateForm(request.POST,request.FILES, instance=UpCrGr)
+        UpCrGr_save = updeateForm(request.POST, instance=UpCrGr)
         if UpCrGr_save.is_valid():
             UpCrGr_save.save()
             return redirect('/student_create_groups')
