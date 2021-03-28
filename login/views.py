@@ -5,15 +5,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
-<<<<<<< HEAD
-<<<<<<< HEAD
-from .forms import Add_Idea, CRN, Doc, Stu, Distrbution,Cho
-=======
-from .forms import Add_Idea, CRN, Doc, Stu, Distrbution, Add_GRP
->>>>>>> upstream/master
-=======
-from .forms import Add_Idea, CRN, Doc, Stu, Distrbution ,CreateGroupsForm  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP 
->>>>>>> upstream/master
+from .forms import Add_Idea, CRN, Doc, Stu, Distrbution   ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP ,updeateForm    
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -110,10 +102,7 @@ def committee_home(request):
 
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> upstream/master
 def committee_add_idea(request):
     
     if request.method =='POST':
@@ -420,18 +409,48 @@ def student_show_archived_idea(request):
      return render(request, 'pages_students/student_show_archived_idea.html' ,context)
 
 def student_upload_project(request):
+    if request.method =='POST':
+        upload = Add_Idea(request.POST, request.FILES)
+        if upload.is_valid():
+            upload.save()
+            return redirect('student_upload_project')
+
     context ={
 
          'Upload_form': UploadIdeaForm()
     }
     return render(request, 'pages_students/student_upload_project.html' ,context)
 
-def student_create_groups(request):
-    context ={
 
-         'form': CreateGroupsForm()
-    }
+
+
+def student_create_groups(request):
+    context = {
+         'create': Students.objects.all(),
+     }
     return render(request, 'pages_students/student_create_groups.html' ,context)
+
+
+
+  
+
+def updat_student_create_group(request,id):
+    UpCrGr = Students.objects.get(id_students=id)
+    if request.method =='POST':
+        UpCrGr_save = updeateForm(request.POST,request.FILES, instance=UpCrGr)
+        if UpCrGr_save.is_valid():
+            UpCrGr_save.save()
+            return redirect('/student_create_groups')
+    else:
+        UpCrGr_save = updeateForm(instance=UpCrGr)
+    context={
+        'updateFrom':UpCrGr_save
+    }
+    return render(request,'pages_students/create_update.html', context)
+
+
+
+
 
 def student_dont_groups(request):
      context ={

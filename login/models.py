@@ -105,6 +105,7 @@ class Projects(models.Model):
 
 
 
+
 class Evaluation(models.Model):
     id_evaluation = models.AutoField(db_column='id_Evaluation', primary_key=True)  # Field name made lowercase.
     gread_evaluation = models.CharField(max_length=45, blank=True, null=True)

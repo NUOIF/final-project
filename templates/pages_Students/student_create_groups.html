@@ -1,19 +1,81 @@
 {% extends 'baisc_students.html' %}
 
 {% block content %}
-<center>
-    <form method="POST" enctype="">
-        {% csrf_token %}
-        <div class="s">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+
+</head>
+
+<body>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .add-crn {
+        padding-top:10px;
+        margin-top:10px;
+    }
+</style>
+</head>
+<body>
+
+<form class="add-crn">
+  <div class="container">
     
-        {{form}}
-        </div>
-        <div class="card-foter">
-            <br>
-            <button type="submit" class="btn btn-primary">submit</button>
-        </div>
-        
-    </form>
-</center>
-{% endblock content %}
-    
+
+    <table class="table table-bordered">
+      <thead>
+            
+          <tr>
+            <th scope="col">Id Students</th>            
+            <th scope="col">Name Students</th> 
+            <th scope="col">Group</th>           
+               
+                     
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+               {% for gr in create %}
+             
+              <td>{{gr.id_students}}</td>
+              <td>{{gr.name_Students}}</td>
+              <td><a class="dropdown-item" href="{%url 'create_update' gr.id_groups_fk%}">Edte</a></td>
+              
+              
+              
+             
+              
+            </tr>
+             {% endfor %}
+             
+        </tbody>
+      </table>
+      
+  </div>
+
+  
+</form>
+
+</body>
+
+</html>
+
+
+
+
+
+{%endblock%}
+
+
+
+
