@@ -5,15 +5,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
-<<<<<<< HEAD
-<<<<<<< HEAD
-from .forms import Add_Idea, CRN, Doc, Stu, Distrbution,Cho
-=======
-from .forms import Add_Idea, CRN, Doc, Stu, Distrbution, Add_GRP
->>>>>>> upstream/master
-=======
-from .forms import Add_Idea, CRN, Doc, Stu, Distrbution ,CreateGroupsForm  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP 
->>>>>>> upstream/master
+from .forms import Add_Idea, CRN, Doc, Stu, Distrbution ,CreateGroupsForm ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP,Cho
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -87,7 +79,7 @@ def loginStudents(request):
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
             hisname = {'stdName':request.POST.get('username')}
-            return render(request, 'pages_Students/home.html',hisname)
+            return render(request, 'pages_Students/student_home.html')
         except Students.DoesNotExist as studentNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
     return render(request, "pages_login/loginStudents.html")
@@ -110,10 +102,6 @@ def committee_home(request):
 
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master
 def committee_add_idea(request):
     
     if request.method =='POST':

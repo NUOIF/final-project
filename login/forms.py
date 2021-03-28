@@ -76,7 +76,7 @@ class Stu(forms.ModelForm):
 
 class Cho(forms.ModelForm):
     class Meta:
-        model= Projects
+        model= Students
         fields=['id_groups_fk']
         widgets ={
             'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
