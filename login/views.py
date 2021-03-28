@@ -77,8 +77,8 @@ def loginStudents(request):
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
-            hisname = {'stdName':request.POST.get('username')}
-            return render(request, 'pages_Students/student_home.html',hisname)
+            request.session['name'] = request.POST.get('username')
+            return render(request, 'pages_Students/student_home.html')
         except Students.DoesNotExist as studentNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
     return render(request, "pages_login/loginStudents.html")
@@ -346,8 +346,9 @@ def student_show_the_department_idea(request):
         ge = ChoiceIdea(request.POST)
         if ge.is_valid():
             ge.save()
+            re = request.session['id_groups_fk'] = request.POST.get('id_groups_fk')
+            print(re)
     context={
-
         'froms':ChoiceIdea(),
         'project':Projects.objects.all(),
         'choiceidea':Students.objects.all(),   
@@ -389,12 +390,13 @@ def student_upload_project(request):
         upload = UploadIdeaForm(request.POST, request.FILES)
         if upload.is_valid():
             upload.save()
-            return redirect('show_suggested_idea')
+            return redirect('student_show_archived_idea')
 
     context ={
-        'Upload_form': UploadIdeaForm()
+        'Upload_form': UploadIdeaForm(),
     }
     return render(request, 'pages_students/student_upload_project.html' ,context)
+
 
 def student_create_groups(request):
     context ={

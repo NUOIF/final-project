@@ -122,7 +122,7 @@ class dont_have_groupeFORM(forms.ModelForm):
 
 class UploadIdeaForm(forms.ModelForm):
     class Meta:
-        model =Projects
+        model = Projects
         fields=['name_projects','filled_projects','descriotion_projects','file_project','id_projects','id_Doctors_fk','status','id_groups_fk']
 
         widgets ={
