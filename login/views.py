@@ -5,13 +5,14 @@ from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
-from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP, ChoiceIdea , Choose_group
+from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP, ChoiceIdea , Choose_group, InsertIdea, ChooseGroupDoctor
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
 from .models import Doctors,CommitteesCharis,Students,Groups 
 from django.shortcuts import redirect
-
+from django.contrib.sessions.backends.db import SessionStore
+from django.contrib.sessions.models import Session
 # Login Pages
 
 
@@ -37,6 +38,7 @@ def loginCommittee(request):
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
+            request.session['name'] = request.POST.get('username')
             return render(request, 'pages_Committee/home.html')
         except CommitteesCharis.DoesNotExist as committeeNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
@@ -57,6 +59,7 @@ def loginDoctors(request):
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
+            request.session['name'] = request.POST.get('username')
             return render(request, 'pages_Doctors/home.html')
         except Doctors.DoesNotExist as doctorNull:
             messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
@@ -73,7 +76,7 @@ def loginStudents(request):
     if request.method=="POST":
         try:
             check_student = Students.objects.get(
-                name_Students = request.POST.get('username'), 
+                id_students = request.POST.get('username'), 
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('username'))
@@ -304,9 +307,22 @@ def doctor_show_idea(request):
     context = {
     
         'show':Groups.objects.all(),
-        'proj':Projects.objects.all(),
+        'projects':Projects.objects.all(),
     }
     return render(request, 'pages_Doctors/doctor_show_idea.html', context)
+
+def doctor_choose_idea(request,id):
+    chooseID = Projects.objects.get(id_projects=id)
+    if request.method =='POST':
+        Chose_save = ChooseGroupDoctor(request.POST,instance=chooseID)
+        if Chose_save.is_valid():
+            Chose_save.save()
+            return redirect('/doctor_show_idea')
+    else:
+        Chose_save = ChooseGroupDoctor(instance=chooseID)
+        
+    context={'from':Chose_save}
+    return render(request, 'doctor_choose_idea.html', context)
 
 def doctor_create_group(request):
     context = {
@@ -348,8 +364,6 @@ def student_show_the_department_idea(request):
         ge = ChoiceIdea(request.POST)
         if ge.is_valid():
             ge.save()
-            re = request.session['id_groups_fk'] = request.POST.get('id_groups_fk')
-            print(re)
     context={
         'froms':ChoiceIdea(),
         'project':Projects.objects.all(),
@@ -404,8 +418,16 @@ def student_upload_project(request):
 
 
 def student_create_groups(request):
+    if request.method =='POST':
+        upload = InsertIdea(request.POST, request.FILES)
+        if upload.is_valid():
+            upload.save()
+            return redirect('message_create_group')
+
     context ={
-        'students': Students.objects.all()
+        'students': Students.objects.all(),
+        'from': InsertIdea(),
+        'projects': Projects.objects.all()
     }
     return render(request, 'pages_students/student_create_groups.html' ,context)
 
@@ -423,6 +445,22 @@ def choose_group(request,id):
     }
     return render(request,'pages_students/choose_group.html', context)
 
+# def insert_idea(request):
+#     if request.method =='POST':
+#         upload = InsertIdea(request.POST, request.FILES)
+#         if upload.is_valid():
+#             upload.save()
+#             return redirect('message_create_group')
+
+#     context ={
+#         'from': InsertIdea(),
+#     }
+#     return render(request,'pages_students/insert_idea.html', context)
+
+def message_create_group(request):
+    msg = {'msg':'You have been insert your idea'}
+    return render(request, 'pages_students/message_create_group.html', msg)
+
 
 def student_dont_groups(request):
     context ={
@@ -437,8 +475,9 @@ def student_dont_groups(request):
 
 def student_dont_groups(request):
     context = {
-         'grops': Students.objects.all(),
-     }
+        'grops': Students.objects.all(),
+        'stdname': Session.objects.all()
+    }
     return render(request, 'pages_students/student_dont_groups.html' ,context)
 
 

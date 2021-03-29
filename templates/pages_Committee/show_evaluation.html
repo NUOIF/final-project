@@ -23,7 +23,7 @@
               <th scope="col">Evaluator 1</th>
               <th scope="col">Evaluator 2</th>
               <th scope="col">Evaluator 3</th>            
-              <th scope="col">Grade</th>           
+              <th scope="col">Download File</th>           
             </tr>
           </thead>
           <tbody>
@@ -35,7 +35,7 @@
                 <td>{{eval.id_doctor_fk}}</td>
                 <td>{{eval.id_doctor_fk2}}</td>
                 <td>{{eval.id_doctor_fk3}}</td>
-                <td>{{eval.gread_evaluation}}</td>
+                <td><a href="{{eval.file_evaluation.url}}" Download="eval.file_evaluation.url">Download Files</a></td>
   
                 
               </tr>

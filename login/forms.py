@@ -149,4 +149,24 @@ class Choose_group(forms.ModelForm):
         widgets ={
             'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
         } 
-        
+
+class InsertIdea(forms.ModelForm):
+    class Meta:
+        model = Projects
+        fields=['name_projects','filled_projects','descriotion_projects','id_groups_fk']
+
+        widgets ={
+            'id_projects':forms.TextInput(attrs={'class':'form-control'}),
+            'name_projects':forms.TextInput(attrs={'class':'form-control'}),
+            'filled_projects':forms.TextInput(attrs={'class':'form-control'}),
+            'descriotion_projects':forms.TextInput(attrs={'class':'form-control'}),
+            'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
+        } 
+
+class ChooseGroupDoctor(forms.ModelForm):
+
+    class Meta:
+        model  = Doctors
+        fields = ['id_groups_fk']
+
+        widgets = {'id_groups_fk':forms.Select(attrs={'class':'form-control'})} 

@@ -15,7 +15,7 @@ urlpatterns = [
     path('committee_show_idea',              views.committee_show_idea,               name='committee_show_idea'),
     path('show_suggested_idea',              views.show_suggested_idea,               name='show_suggested_idea'),
     path('modifying_groups',                 views.modifying_groups,                  name='modifying_groups'),
-    path('show_evaluation',                  views.show_evaluation,                   name='committee_add_doctor_to_groups'),
+    path('show_evaluation',                  views.show_evaluation,                   name='show_evaluation'),
     path('distrbution_doctors_to_groups',    views.distrbution_doctors_to_groups,     name='modifying_groups'),
     path('Add_CRN',                          views.Add_CRN,                           name='Add_CRN'),
     path('<int:id>/CRN_update/',             views.CRN_update,                        name='CRN_update'),#Url for page update
@@ -42,7 +42,9 @@ urlpatterns = [
     path('student_create_groups',            views.student_create_groups ,            name='student_create_groups'),
     path('student_dont_groups',              views.student_dont_groups ,              name='student_dont_groups'),
     path('Chose_Enter/<int:id>',             views.Chose_Enter,                       name='Chose_Enter'),
-    path('choose_group/<int:id>',            views.choose_group,                     name='choose_group'),
+    path('choose_group/<int:id>',            views.choose_group,                      name='choose_group'),
+    path('message_create_group',              views.message_create_group,                      name='message_create_group'),
+    
     
 
 
