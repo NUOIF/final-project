@@ -29,9 +29,15 @@ urlpatterns = [
     path('doctors_home',                     views.doctors_home,                      name='doctors_home'),
     path('doctor_show_idea',                 views.doctor_show_idea,                  name='doctor_show_idea'),
     path('doctor_create_group',              views.doctor_create_group ,              name='doctor_create_group'),
-    path('doctor_modification_the_group',    views.doctor_modification_the_group ,    name='doctor_modification_the_group'),
+    path('doctor_show_my_group',    views.doctor_show_my_group ,    name='doctor_show_my_group'),
     path('doctor_evaluating_groups',         views.doctor_evaluating_groups ,         name='doctor_evaluating_groups'),
     path('doctor_show_my_group_evaluation',  views.doctor_show_my_group_evaluation ,  name='doctor_show_my_group_evaluation'),
+    path('doctor_message_creating_group',  views.doctor_message_creating_group ,  name='doctor_message_creating_group'),
+    path('doctor_choose_idea/<int:id>',      views.doctor_choose_idea ,               name='doctor_choose_idea'),
+    path('doctor_creating_group/<int:id>',      views.doctor_creating_group ,               name='doctor_creating_group'),
+    path('doctor_upload_file/<int:id>',      views.doctor_upload_file ,               name='doctor_upload_file'),
+    
+    
     # students paths  
 
     path('loginStudents',                    views.loginStudents,                     name='loginStudents'),

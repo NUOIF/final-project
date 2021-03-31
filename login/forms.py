@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import fields, widgets
 from .models import Doctors, Evaluation, Groups, Projects, Students
 
 
@@ -132,13 +133,21 @@ class updeateForm(forms.ModelForm):
         } 
 
         
+class DoctorCreatingGroup(forms.ModelForm):
+    class Meta:
+        model = Groups
+        fields = ['name_groups']
 
+        widgets = {
+            #'id_groups':forms.TextInput(attrs={'class':'form-control'}),
+            'name_groups':forms.TextInput(attrs={'class':'form-control'}),
+            }
 class Add_GRP(forms.ModelForm):
     class Meta:
         model = Students
         fields=['id_groups_fk']      
         
-        widgets =forms.CheckboxSelectMultiple(attrs={'class':'form-control'}),
+        widgets = { 'id_groups_fk':forms.Select(attrs={'class':'form-control'}),}
         
 
 
@@ -167,6 +176,24 @@ class ChooseGroupDoctor(forms.ModelForm):
 
     class Meta:
         model  = Doctors
-        fields = ['id_groups_fk']
+        fields = ['id_doctors','id_groups_fk']
 
-        widgets = {'id_groups_fk':forms.Select(attrs={'class':'form-control'})} 
+        widgets = {
+            'id_doctors':forms.Select(attrs={'class':'form-control'}),
+            'id_groups_fk':forms.Select(attrs={'class':'form-control'})
+            } 
+
+
+class DoctorEvaluatingGroupForm (forms.ModelForm):
+    class Meta:
+        model =Evaluation
+        fields=['id_evaluation','file_evaluation','file_evaluation_dr2','file_evaluation_dr3']
+
+        widgets ={
+            'id_evaluation':forms.Select(attrs={'class':'form-control'}),
+            #'id_groups_fk':forms.Select(attrs={'class':'form-control'}),
+            'file_evaluation':forms.FileInput(attrs={'class':'form-control'}),
+            'file_evaluation_dr2':forms.FileInput(attrs={'class':'form-control'}),
+            'file_evaluation_dr3':forms.FileInput(attrs={'class':'form-control'}),
+            
+        } 

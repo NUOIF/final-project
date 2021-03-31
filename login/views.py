@@ -1,11 +1,12 @@
 import os
+import re
 from typing import ContextManager
 from django.shortcuts import render 
 from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
 from .models import Evaluation, Projects, Students
-from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP, ChoiceIdea , Choose_group, InsertIdea, ChooseGroupDoctor
+from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP, ChoiceIdea , Choose_group, InsertIdea, ChooseGroupDoctor, DoctorCreatingGroup, DoctorEvaluatingGroupForm
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -21,6 +22,8 @@ from django.contrib.sessions.models import Session
 message_welcome = 'Welcome Mr.'
 message_error_sorry = "Sorry Mr."
 message_error_reason = " the username or password are invalid - please try again"
+
+
 
 def login(request):
     return render(request, "login.html")
@@ -50,23 +53,57 @@ def loginCommittee(request):
 
 
 
-
 def loginDoctors(request):
     if request.method=="POST":
         try:
             check_doctor = Doctors.objects.get(
-                name_doctors = request.POST.get('username'), 
+                id_bu = request.POST.get('id'), 
                 passwords = request.POST.get('password')
                 )
-            messages.success(request, message_welcome + request.POST.get('username'))
-            request.session['name'] = request.POST.get('username')
+            messages.success(request, message_welcome + request.POST.get('id'))
+            ## get session of the doctor name
+            doctorName = Doctors.objects.filter(id_bu = request.POST.get('id')).values('name_doctors')
+            toStr = str(doctorName)
+            format1 = re.findall('[a-zA-Z]+', toStr)
+            request.session['name'] = format1[3]
+            # end the session of the doctor name 
+            # get doctor id in the system
+            doctorIdSystem = Doctors.objects.filter(id_bu = request.POST.get('id')).values('id_doctors')
+            tostring = str(doctorIdSystem)
+            format1 = re.findall('[0-9]+', tostring)
+            returnToIntId = int(format1[0])
+            request.session['id'] = returnToIntId
+            global doctorID
+            def doctorID():
+                return returnToIntId
+            # end the doctor id in the system
+            #get the doctor group id 
+            doctorBU_ID = request.POST.get('id')
+            doctorGroupID = Doctors.objects.filter(id_bu = doctorBU_ID).values('id_groups_fk')
+            tostr = str(doctorGroupID)
+            format1 = re.findall('[0-9]+', tostr)
+            format2 = format1[0]
+            format3 = int(format2)
+            getDoctor = Doctors.objects.filter(id_groups_fk = format2)
+            print(getDoctor)
+            global hisGroupID
+            def hisGroupID():
+                return format3
+            # end the doctor group id 
+            # get the doctor bu id 
+            request.session['idbu'] = doctorBU_ID
+            global doctor_bu_id
+            def doctor_bu_id():
+                return doctorBU_ID
+            # end the doctor bu id 
             return render(request, 'pages_Doctors/home.html')
         except Doctors.DoesNotExist as doctorNull:
-            messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
+            messages.error(request, message_error_sorry + request.POST.get('id') + message_error_reason)
     return render(request, "pages_login/loginDoctors.html")
 
 
-
+#doctorName = request.POST.get('username')
+#request.session['name'] = doctorName
 
 
 
@@ -274,7 +311,7 @@ def show_evaluation(request):
 def distrbution_doctors_to_groups(request):
     distrbution_doctors = {
         'evaluation' : Evaluation.objects.exclude(id_doctor_fk = None),
-        'evaluator' : Evaluation.objects.filter( Q(id_doctor_fk = None) | Q(id_doctor_fk2 = None) | Q(id_doctor_fk2 = None) ).exclude(id_groups_fk = None),
+        'evaluator' : Evaluation.objects.filter( Q(id_doctor_fk = None) | Q(id_doctor_fk2 = None) | Q(id_doctor_fk3 = None) ).exclude(id_groups_fk = None),
         'evaluators': Evaluation.objects.all()
         }
     return render(request, 'pages_Committee/distrbution_doctors_to_groups.html', distrbution_doctors)
@@ -304,52 +341,107 @@ def doctors_home(request):
 
 
 def doctor_show_idea(request):
+
     context = {
     
         'show':Groups.objects.all(),
-        'projects':Projects.objects.all(),
+        'projects':Projects.objects.all().exclude(id_groups_fk = None),
+        'doctors':Doctors.objects.filter(id_bu = doctor_bu_id()),
+        'doctorForm':ChooseGroupDoctor()
     }
     return render(request, 'pages_Doctors/doctor_show_idea.html', context)
 
 def doctor_choose_idea(request,id):
-    chooseID = Projects.objects.get(id_projects=id)
+    chooseID = Doctors.objects.get(id_doctors=id)
     if request.method =='POST':
-        Chose_save = ChooseGroupDoctor(request.POST,instance=chooseID)
-        if Chose_save.is_valid():
-            Chose_save.save()
+        Choose_save = ChooseGroupDoctor(request.POST,instance=chooseID)
+        if Choose_save.is_valid():
+            Choose_save.save()
             return redirect('/doctor_show_idea')
     else:
-        Chose_save = ChooseGroupDoctor(instance=chooseID)
-        
-    context={'from':Chose_save}
-    return render(request, 'doctor_choose_idea.html', context)
+        Choose_save = ChooseGroupDoctor(instance=chooseID)
+
+    context={'from':Choose_save}
+    return render(request, 'pages_Doctors/doctor_choose_idea.html', context)
 
 def doctor_create_group(request):
+    if request.method =='POST':
+        global upload 
+        upload = Groups.objects.create(name_groups = request.POST.get('create'))
+        upload.save()
+        return redirect('/doctor_message_creating_group')
+    global groupsID
+    def groupsID():
+        return upload
+        
+
     context = {
-        'std':Students.objects.all(),
+        'students':Students.objects.all(),
+        'create': DoctorCreatingGroup(),
         'hi':Add_GRP(),
     }
     return render(request, 'pages_Doctors/doctor_create_group.html', context)
 
-def crete_grp(request):
-    if request.method=="POST":
-        if request.POST.get('std_id'):
-                savedata=Groups()
-                savedata.id_groups=request.POST.get('std_id')
-                savedata.save()
-                return render(request,'pages_Doctors/doctor_create_group.html')
-    else:
-                return render(request,'pages_Doctors/doctor_create_group.html')
+def doctor_message_creating_group(request):
+    msg = {'msg':"Success You have been added group ID " + str(groupsID())}
+    return render(request, 'pages_Doctors/doctor_message_creating_group.html', msg)
 
-def doctor_modification_the_group(request):
-    return render(request, 'pages_Doctors/doctor_modification_the_group.html')
+def doctor_creating_group(request, id):
+    Group = Students.objects.get(id_students=id)
+    if request.method =='POST':
+        Choose_save = Add_GRP(request.POST,instance=Group)
+        if Choose_save.is_valid():
+            Choose_save.save()
+            return redirect('/doctor_create_group')
+    else:
+        Choose_save = Add_GRP(instance=Group)
+    context={
+        'from':Choose_save
+    }
+    return render(request,'pages_Doctors/doctor_creating_group.html', context)
+
+
+def doctor_show_my_group(request):
+    student = Students.objects.all().filter(id_groups_fk = hisGroupID()).values('name_Students')
+    for n in student:
+        x = n
+    tostr = str(student)
+    format1 = re.findall('[a-zA-Z]+', tostr)
+    context = {
+        'groupid':Groups.objects.all().filter(id_groups = hisGroupID()),
+        'hisStudents':Students.objects.all().filter(id_groups_fk = hisGroupID()),
+        'mygroup':hisGroupID()
+    }
+    return render(request, 'pages_Doctors/doctor_show_my_group.html',context)
 
 def doctor_evaluating_groups(request):
-    return render(request, 'pages_Doctors/doctor_evaluating_groups.html')
+
+    context ={
+        'evaluations': Evaluation.objects.all(),
+    }
+    return render(request, 'pages_Doctors/doctor_evaluating_groups.html' ,context)
+
+
+def doctor_upload_file(request,id):
+    Eval = Evaluation.objects.get(id_evaluation=id)
+    if request.method =='POST':
+        Chose_save = DoctorEvaluatingGroupForm(request.POST,instance=Eval)
+        if Chose_save.is_valid():
+            Chose_save.save()
+            return redirect('/doctor_evaluating_groups')
+    else:
+        Chose_save = DoctorEvaluatingGroupForm(instance=Eval)
+    context={
+        'from':Chose_save
+    }
+    return render(request,'pages_Doctors/doctor_upload_file.html', context)
+
 
 def doctor_show_my_group_evaluation(request):
-    return render(request, 'pages_Doctors/doctor_show_my_group_evaluation.html')
-
+    context = {
+        'doctor_evaluating':Evaluation.objects.filter(Q(id_doctor_fk = doctorID()) | Q(id_doctor_fk2 = doctorID() ) | Q(id_doctor_fk3 = doctorID())),
+    }
+    return render(request, 'pages_Doctors/doctor_show_my_group_evaluation.html',context)
 
 # students views
 
