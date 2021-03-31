@@ -35,7 +35,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Groups</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="doctor_create_group">Create a group</a></li>
-                            <li><a class="dropdown-item" href="doctor_modification_the_group">Modification the group</a></li>
+                            <li><a class="dropdown-item" href="doctor_show_my_group">Show my group</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -47,8 +47,9 @@
                     </li>
                 </ul>
                     <form class="d-flex">
+                        <a class="navbar-brand">My ID : {{ request.session.id }}</a>
                         <a class="navbar-brand">{{ request.session.name }}</a>
-                        <a class="navbar-brand">M87</a>
+                        <a class="navbar-brand">{{ request.session.idbu}}</a>
                         <a class="navbar-brand" href="loginDoctors">Logout</a>
                     </form>
 
