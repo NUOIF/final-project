@@ -147,7 +147,7 @@ class Add_GRP(forms.ModelForm):
         model = Students
         fields=['id_groups_fk']      
         
-        widgets = { 'id_groups_fk':forms.Select(attrs={'class':'form-control'}),}
+        widgets = { 'id_groups_fk':forms.Select(attrs={'class':'form-select'}),}
         
 
 
@@ -180,7 +180,7 @@ class ChooseGroupDoctor(forms.ModelForm):
 
         widgets = {
             'id_doctors':forms.Select(attrs={'class':'form-control'}),
-            'id_groups_fk':forms.Select(attrs={'class':'form-control'})
+            'id_groups_fk':forms.Select(attrs={'class':'form-select'})
             } 
 
 

@@ -3,63 +3,18 @@
 
 {%block content%}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
-
-</head>
-
-<body>
-
-
-<!DOCTYPE html>
 <html>
 <head>
   <style>
-    .add-crn {
-        padding-top:10px;
+    .container {
+        padding-top:100px;
         margin-top:10px;
+        text-align: center;
     }
 </style>
 </head>
 <body>
 
-<form class="add-crn">
-  <div class="container">
-    
-
-    <table class="table table-bordered">
-      <thead>
-            
-          <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
-
-</head>
-
-<body>
-
-
-<!DOCTYPE html>
-<html>
-<head>
-  <style>
-    .add-crn {
-        padding-top:10px;
-        margin-top:10px;
-    }
-</style>
-</head>
-<body>
-
-<form class="add-crn">
   <div class="container">
     
 
@@ -78,15 +33,15 @@
         <tbody>
           
             <tr>
-               {% for gr in doctor_evaluating %}
+               {% for evaluation in doctor_evaluating %}
              
-              <td>{{gr.id_evaluation}}</td>
-              <td>{{gr.id_groups_fk}}</td>
-              <td>{{gr.id_doctor_fk}}</td>
-              <td>{{gr.id_doctor_fk2}}</td>
-              <td>{{gr.id_doctor_fk3}}</td>
+              <td>{{evaluation.id_evaluation}}</td>
+              <td>{{evaluation.id_groups_fk}}</td>
+              <td>{{evaluation.id_doctor_fk}}</td>
+              <td>{{evaluation.id_doctor_fk2}}</td>
+              <td>{{evaluation.id_doctor_fk3}}</td>
               <td>
-                <a href="{{gr.file_evaluation.url}}"Dwonload="gr.file_evaluation.url">Dwonload Files</a>
+                <a class="btn btn-outline-primary" href="{{evaluation.file_evaluation.url}}"Dwonload="evaluation.file_evaluation.url">Dwonload Files</a>
                 </td>
               
              
@@ -97,9 +52,6 @@
         </tbody>
 </table>
 </div>
-
-
-</form>
 
 </body>
 

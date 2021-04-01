@@ -113,14 +113,51 @@ def loginStudents(request):
     if request.method=="POST":
         try:
             check_student = Students.objects.get(
-                id_students = request.POST.get('username'), 
+                bu_id = request.POST.get('bu_id'), 
                 passwords = request.POST.get('password')
                 )
-            messages.success(request, message_welcome + request.POST.get('username'))
-            request.session['name'] = request.POST.get('username')
+            messages.success(request, message_welcome + request.POST.get('bu_id'))
+            ## get session of the student name
+            student_name = Students.objects.filter(bu_id = request.POST.get('bu_id')).values('name_Students')
+            toStr = str(student_name)
+            format1 = re.findall('[a-zA-Z]+', toStr)
+            request.session['Name'] = format1
+            print(format1[3])
+            # end the session of the student name 
+            # get student id in the system
+            studentIdSystem = Students.objects.filter(bu_id = request.POST.get('bu_id')).values('id_students')
+            tostring = str(studentIdSystem)
+            format1 = re.findall('[0-9]+', tostring)
+            returnToIntId = int(format1[0])
+            request.session['id'] = returnToIntId
+            print(returnToIntId)
+            global studentID
+            def studentID():
+                return returnToIntId
+            # end the student id in the system
+            #get the student group id 
+            studentBU_ID = request.POST.get('bu_id')
+            studentGroupID = Students.objects.filter(bu_id = studentBU_ID).values('id_groups_fk')
+            tostr = str(studentGroupID)
+            format1 = re.findall('[0-9]+', tostr)
+            format2 = format1[0]
+            format3 = int(format2)
+            get_student = Students.objects.filter(id_groups_fk = format3)
+            print(get_student)
+            global hisGroupID
+            def hisGroupID():
+                return get_student
+            # end the doctor group id 
+            # get the doctor bu id 
+            request.session['idbu'] = studentBU_ID
+            global student_bu_id
+            def student_bu_id():
+                return studentBU_ID
+            # end the doctor bu id 
+            request.session['name'] = request.POST.get('bu_id')
             return render(request, 'pages_Students/student_home.html')
         except Students.DoesNotExist as studentNull:
-            messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
+            messages.error(request, message_error_sorry + request.POST.get('bu_id') + message_error_reason)
     return render(request, "pages_login/loginStudents.html")
 
 
@@ -417,7 +454,7 @@ def doctor_show_my_group(request):
 def doctor_evaluating_groups(request):
 
     context ={
-        'evaluations': Evaluation.objects.all(),
+        'evaluations': Evaluation.objects.filter(Q(id_doctor_fk = doctorID()) | Q(id_doctor_fk2 = doctorID() ) | Q(id_doctor_fk3 = doctorID())),
     }
     return render(request, 'pages_Doctors/doctor_evaluating_groups.html' ,context)
 
@@ -439,7 +476,7 @@ def doctor_upload_file(request,id):
 
 def doctor_show_my_group_evaluation(request):
     context = {
-        'doctor_evaluating':Evaluation.objects.filter(Q(id_doctor_fk = doctorID()) | Q(id_doctor_fk2 = doctorID() ) | Q(id_doctor_fk3 = doctorID())),
+        'doctor_evaluating':Evaluation.objects.filter(id_groups_fk = hisGroupID()),
     }
     return render(request, 'pages_Doctors/doctor_show_my_group_evaluation.html',context)
 

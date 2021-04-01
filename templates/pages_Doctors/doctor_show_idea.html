@@ -14,41 +14,13 @@
   button{
     margin-left:10px;
   }
+  .btn btn-primary{
+    color:aqua;
+  }
 </style>
 </head>
 <body>
   <div class="container">
-    <!-- <table class="table table-bordered">
-      <thead>
-            <br>
-            <br>
-            <br>
-          <tr>
-            
-            <th scope="col">Doctor ID</th>
-            <th scope="col">Doctor Name</th>
-            <th scope="col">Group ID</th>
-            <th scope="col">Choose Group</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for doctor in doctors  %}
-
-            <tr>
-            
-              
-              <td>{{doctor.id_bu}}</td>
-              <td>{{doctor.name_doctors}}</td>
-              <td>{{doctor.id_groups_fk}}</td>
-              <td><a class="dropdown-item" href="{%url 'doctor_choose_idea' doctor.id_doctors%}">Choose</a></td>
-
-              {% endfor %}
-
-            </tr>
-            
-            
-        </tbody>
-      </table> -->
       <br><br><br>
         <table class="table table-bordered">
           <thead>
@@ -73,9 +45,9 @@
                   <td>{{project.id_groups_fk}}</td>
                   <td>{{project.name_projects}}</td>
                   <td>{{project.descriotion_projects}}</td>
-                  <td><a href="{{ project.file_project.url }}">Download</a></td>
+                  <td><a class="btn btn-outline-primary" href="{{ project.file_project.url }}">Download</a></td>
                   {% for doctor in doctors  %}
-                  <td><a class="dropdown-item" href="{%url 'doctor_choose_idea' doctor.id_doctors%}">Choose</a></td>
+                  <td><a class="btn btn-outline-success" href="{%url 'doctor_choose_idea' doctor.id_doctors%}">Choose</a></td>
                   {% endfor %}
                   {% endfor %}
 

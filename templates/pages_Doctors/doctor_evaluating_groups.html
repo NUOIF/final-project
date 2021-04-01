@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="text-align: center;">
     <table class="table table-bordered">
         <thead>
               
@@ -38,10 +38,10 @@
                
                 <td>{{evaluaion.id_evaluation}}</td>
                 <td>{{evaluaion.id_groups_fk}}</td>
-                <td>{{evaluaion.id_doctor_fk}}<br><a href="{{evaluaion.file_evaluation.url}}"Dwonload="evaluaion.file_evaluation.url">Dwonload Files</a></td>
-                <td>{{evaluaion.id_doctor_fk2}}<br><a href="{{evaluaion.file_evaluation_dr2.url}}"Dwonload="evaluaion.file_evaluation_dr2.url">Dwonload Files</a></td>
-                <td>{{evaluaion.id_doctor_fk3}}<br><a href="{{evaluaion.file_evaluation_dr3.url}}"Dwonload="evaluaion.file_evaluation_dr3.url">Dwonload Files</a></td>
-                <td><a class="dropdown-item" href="{%url 'doctor_upload_file' evaluaion.id_evaluation%}">Choose</a></td>
+                <td>{{evaluaion.id_doctor_fk}}<br> <div style="padding-top:10px;"><a  class="btn btn-outline-primary" href="{{evaluaion.file_evaluation.url}}"Dwonload="evaluaion.file_evaluation.url">Dwonload Files</a></div</td>
+                <td>{{evaluaion.id_doctor_fk2}}<br><div style="padding-top:10px;"><a class="btn btn-outline-primary" href="{{evaluaion.file_evaluation_dr2.url}}"Dwonload="evaluaion.file_evaluation_dr2.url">Dwonload Files</a></div></td>
+                <td>{{evaluaion.id_doctor_fk3}}<br><div style="padding-top:10px;"><a class="btn btn-outline-primary" href="{{evaluaion.file_evaluation_dr3.url}}"Dwonload="evaluaion.file_evaluation_dr3.url">Dwonload Files</a></div></td>
+                <td> <div style="padding-top: 15px;"> <a class="btn btn-outline-success" href="{%url 'doctor_upload_file' evaluaion.id_evaluation%}">Choose</a></div></td>
                 
                
                 
