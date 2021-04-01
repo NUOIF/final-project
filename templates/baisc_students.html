@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="{% static 'bootstrap-5.0.0-beta2-dist/css/bootstrap.min.css' %}">
 <style>
     body{
-        background-image:url("{% static 'image/bk1.jpeg' %}");
+        background-image:url("{% static '' %}");
         background-repeat: no-repeat;
         background-attachment: fixed;
         background-position: center; 
@@ -51,8 +51,8 @@
                     </li>
                 </ul>
                     <form class="d-flex">
+                        <a class="navbar-brand">{{ request.session.id }}</a>
                         <a class="navbar-brand">{{ request.session.name }}</a>
-                        <a class="navbar-brand">M87</a>
                         <a class="navbar-brand" href="loginStudents">Logout</a>
                     </form>
 
