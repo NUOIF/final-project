@@ -19,15 +19,14 @@
 <html>
 <head>
   <style>
-    .add-crn {
-        padding-top:10px;
-        margin-top:10px;
-    }
-</style>
+    .container{
+            text-align: center;
+            padding-top: 100px;
+        }
+  </style>
 </head>
 <body>
 
-<form class="add-crn">
   <div class="container">
     
 
@@ -35,9 +34,9 @@
       <thead>
             
           <tr>
-            <th scope="col">Id Students</th>            
-            <th scope="col">Name Students</th> 
-            <th scope="col">Group</th>           
+            <th scope="col">Student's ID</th>            
+            <th scope="col">Student's Name</th> 
+            <th scope="col">Group's ID</th>           
                
                      
           </tr>
@@ -62,13 +61,6 @@
       </table>
       
   </div>
-
-  
-</form>
-<h3>{{ request.session.name }}<h3>
-<ul>
-    <li>{{stdname}}</li>
-</ul>
 </body>
 
 </html>

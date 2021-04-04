@@ -45,11 +45,10 @@ urlpatterns = [
     path('student_show_the_department_idea', views.student_show_the_department_idea , name='student_show_the_department_idea'),
     path('student_show_archived_idea',       views.student_show_archived_idea ,       name='student_show_archived_idea'),
     path('student_upload_project',           views.student_upload_project ,           name='student_upload_project'),
-    path('student_create_groups',            views.student_create_groups ,            name='student_create_groups'),
-    path('student_dont_groups',              views.student_dont_groups ,              name='student_dont_groups'),
+    path('student_choose_groups',            views.student_choose_groups ,            name='student_choose_groups'),
+    path('student_show_my_group',              views.student_show_my_group ,              name='student_show_my_group'),
     path('Chose_Enter/<int:id>',             views.Chose_Enter,                       name='Chose_Enter'),
     path('choose_group/<int:id>',            views.choose_group,                      name='choose_group'),
-    path('message_create_group',              views.message_create_group,                      name='message_create_group'),
     
     
 

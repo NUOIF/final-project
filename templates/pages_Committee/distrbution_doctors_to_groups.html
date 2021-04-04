@@ -10,6 +10,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .container{
+            text-align: center;
+            padding-top:100px
+        }
+        .s {
+            padding-top:50px
+        }
+    </style>
 </head>
     <body>
         <form method="GET">
@@ -22,20 +31,18 @@
                             <th scope="col"> Evaluator 1 </th>
                             <th scope="col"> Evaluator 2 </th>
                             <th scope="col"> Evaluator 3 </th>
-                            <th scope="col"> Edit </th>     
-                            <th scope="col"> Delete Evaluate </th>                 
+                            <th scope="col"> Edit </th>                     
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            {% for eval in evaluators %}
+                            {% for eval in evaluator %}
                                 <td>{{ eval.id_evaluation }}</td>
                                 <td>{{ eval.id_groups_fk  }}</td>
                                 <td>{{ eval.id_doctor_fk  }}<br></td>
                                 <td>{{ eval.id_doctor_fk2 }}<br></td>
                                 <td>{{ eval.id_doctor_fk3 }}<br></td>
-                                <td><a href="{% url 'distrbution_update' eval.id_evaluation %}"><button type="button" class="btn btn-primary">Modify</button></a></td>
-                                <td><a><button class="btn btn-danger">Delete</button></a></td>
+                                <td><a href="{% url 'distrbution_update' eval.id_evaluation %}"><button type="button" class="btn btn-outline-primary">Modify</button></a></td>
                         </tr>
                             {% endfor %}
                             

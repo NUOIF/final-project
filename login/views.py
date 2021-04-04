@@ -5,8 +5,8 @@ from django.shortcuts import render
 from django.db.models import Q
 from django.conf import settings
 from django.templatetags.static import static
-from .models import Evaluation, Projects, Students
-from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution  ,dont_have_groupeFORM ,UploadIdeaForm, Add_GRP, ChoiceIdea , Choose_group, InsertIdea, ChooseGroupDoctor, DoctorCreatingGroup, DoctorEvaluatingGroupForm
+from .models import Department, Evaluation, Projects, Students
+from .forms import Add_Idea, CRN, ChoiceIdea, Doc, Stu, Distrbution ,UploadIdeaForm, Add_GRP, ChoiceIdea , Choose_group, InsertIdea, ChooseGroupDoctor, DoctorCreatingGroup, DoctorEvaluatingGroupForm
 from django import forms
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -14,43 +14,80 @@ from .models import Doctors,CommitteesCharis,Students,Groups
 from django.shortcuts import redirect
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.sessions.models import Session
-# Login Pages
+
+#####################################################################################
+#################################### Login Pages ####################################
+#####################################################################################
 
 
 ## messages for login page
-
 message_welcome = 'Welcome Mr.'
 message_error_sorry = "Sorry Mr."
 message_error_reason = " the username or password are invalid - please try again"
 
-
-
 def login(request):
     return render(request, "login.html")
-
-
-
-
-
 
 def loginCommittee(request):
     if request.method=="POST":
         try:
             check_committee = CommitteesCharis.objects.get(
-                name_committees_charis = request.POST.get('username'), 
+                bu_id = request.POST.get('bu_id'), 
                 passwords = request.POST.get('password')
                 )
-            messages.success(request, message_welcome + request.POST.get('username'))
-            request.session['name'] = request.POST.get('username')
+            messages.success(request, message_welcome + request.POST.get('bu_id'))
+
+            ## get session of the doctor name
+            committee_name = CommitteesCharis.objects.filter(bu_id = request.POST.get('bu_id')).values('name_committees_charis')
+            toStr = str(committee_name)
+            format1 = re.findall('[a-zA-Z]+', toStr)
+            request.session['committee_name'] = format1[4]
+            print(format1[4])
+            # end the session of the doctor name 
+
+            # get doctor id in the system
+            committee_id_system = CommitteesCharis.objects.filter(bu_id = request.POST.get('bu_id')).values('id_committees_charis')
+            tostring = str(committee_id_system)
+            format1 = re.findall('[0-9]+', tostring)
+            returnToIntId = int(format1[0])
+            print(returnToIntId)
+            request.session['committee_id'] = returnToIntId
+            global committee_id
+            def committee_id():
+                return returnToIntId
+            # end the doctor id in the system
+
+            # get the doctor bu id 
+            committee_BU_ID = request.POST.get('bu_id')
+            print(committee_BU_ID)
+            request.session['committee_id_bu'] = committee_BU_ID
+            global doctor_bu_id
+            def doctor_bu_id():
+                return committee_BU_ID
+            # end the doctor bu id 
+
+            # get the department classifications 
+            committeeDepartmentID = CommitteesCharis.objects.filter(bu_id = committee_BU_ID).values('id_department_fk')
+            formating_to_string = str(committeeDepartmentID)
+            regular_get_number = re.findall('[0-9]+', formating_to_string)
+            return_to_int = int(regular_get_number[0])
+            get_name_department = Department.objects.filter(id_department = return_to_int).values('name_department')
+            formating_to_string2 = str(get_name_department)
+            regular_get_str = re.findall('[a-zA-Z]+', formating_to_string2)
+            request.session['committee_dep_id'] = return_to_int
+            print(return_to_int)
+            request.session['committee_dep_name'] = regular_get_str[3]
+            print(regular_get_str[3])
+            global committee_department_id
+            def committee_department_id():
+                return return_to_int
+            # end the department classifications 
+
             return render(request, 'pages_Committee/home.html')
         except CommitteesCharis.DoesNotExist as committeeNull:
-            messages.error(request, message_error_sorry + request.POST.get('username') + message_error_reason)
+            messages.error(request, message_error_sorry + request.POST.get('bu_id') + message_error_reason)
+            print(str(committeeNull) + ' id => ' + str(request.POST.get('bu_id') + ' pass => ' + str(request.POST.get('password'))))
     return render(request, "pages_login/loginCommittee.html")
-
-
-
-
-
 
 
 def loginDoctors(request):
@@ -61,22 +98,25 @@ def loginDoctors(request):
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('id'))
+
             ## get session of the doctor name
             doctorName = Doctors.objects.filter(id_bu = request.POST.get('id')).values('name_doctors')
             toStr = str(doctorName)
             format1 = re.findall('[a-zA-Z]+', toStr)
-            request.session['name'] = format1[3]
+            request.session['doctor_name'] = format1[3]
             # end the session of the doctor name 
+
             # get doctor id in the system
             doctorIdSystem = Doctors.objects.filter(id_bu = request.POST.get('id')).values('id_doctors')
             tostring = str(doctorIdSystem)
             format1 = re.findall('[0-9]+', tostring)
             returnToIntId = int(format1[0])
-            request.session['id'] = returnToIntId
+            request.session['doctor_id'] = returnToIntId
             global doctorID
             def doctorID():
                 return returnToIntId
             # end the doctor id in the system
+
             #get the doctor group id 
             doctorBU_ID = request.POST.get('id')
             doctorGroupID = Doctors.objects.filter(id_bu = doctorBU_ID).values('id_groups_fk')
@@ -84,29 +124,40 @@ def loginDoctors(request):
             format1 = re.findall('[0-9]+', tostr)
             format2 = format1[0]
             format3 = int(format2)
-            getDoctor = Doctors.objects.filter(id_groups_fk = format2)
-            print(getDoctor)
-            global hisGroupID
-            def hisGroupID():
+            request.session['doctor_group_id'] = format3
+            global doctor_group_id
+            def doctor_group_id():
                 return format3
             # end the doctor group id 
+
             # get the doctor bu id 
-            request.session['idbu'] = doctorBU_ID
+            request.session['doctor_id_bu'] = doctorBU_ID
             global doctor_bu_id
             def doctor_bu_id():
                 return doctorBU_ID
             # end the doctor bu id 
+
+            # get the department classifications 
+            doctorDepartmentID = Doctors.objects.filter(id_bu = doctorBU_ID).values('id_department_fk')
+            formating_to_string = str(doctorDepartmentID)
+            regular_get_number = re.findall('[0-9]+', formating_to_string)
+            return_to_int = int(regular_get_number[0])
+            get_name_department = Department.objects.filter(id_department = return_to_int).values('name_department')
+            formating_to_string2 = str(get_name_department)
+            regular_get_str = re.findall('[a-zA-Z]+', formating_to_string2)
+            print(regular_get_str)
+            request.session['doctor_dep_id'] = return_to_int
+            request.session['doctor_dep_name'] = regular_get_str[3]
+            global doctor_department_id
+            def doctor_department_id():
+                return return_to_int
+            # end the department classifications 
+
             return render(request, 'pages_Doctors/home.html')
         except Doctors.DoesNotExist as doctorNull:
             messages.error(request, message_error_sorry + request.POST.get('id') + message_error_reason)
+            print(str(doctorNull) + ' id => ' + str(request.POST.get('id') + ' pass => ' + str(request.POST.get('password'))))
     return render(request, "pages_login/loginDoctors.html")
-
-
-#doctorName = request.POST.get('username')
-#request.session['name'] = doctorName
-
-
-
 
 
 def loginStudents(request):
@@ -117,24 +168,27 @@ def loginStudents(request):
                 passwords = request.POST.get('password')
                 )
             messages.success(request, message_welcome + request.POST.get('bu_id'))
+
             ## get session of the student name
             student_name = Students.objects.filter(bu_id = request.POST.get('bu_id')).values('name_Students')
             toStr = str(student_name)
             format1 = re.findall('[a-zA-Z]+', toStr)
-            request.session['Name'] = format1
+            request.session['student_name'] = format1[3]
             print(format1[3])
             # end the session of the student name 
+
             # get student id in the system
             studentIdSystem = Students.objects.filter(bu_id = request.POST.get('bu_id')).values('id_students')
             tostring = str(studentIdSystem)
             format1 = re.findall('[0-9]+', tostring)
             returnToIntId = int(format1[0])
-            request.session['id'] = returnToIntId
+            request.session['student_id'] = returnToIntId
             print(returnToIntId)
-            global studentID
-            def studentID():
+            global student_id
+            def student_id():
                 return returnToIntId
             # end the student id in the system
+
             #get the student group id 
             studentBU_ID = request.POST.get('bu_id')
             studentGroupID = Students.objects.filter(bu_id = studentBU_ID).values('id_groups_fk')
@@ -142,42 +196,48 @@ def loginStudents(request):
             format1 = re.findall('[0-9]+', tostr)
             format2 = format1[0]
             format3 = int(format2)
-            get_student = Students.objects.filter(id_groups_fk = format3)
-            print(get_student)
-            global hisGroupID
-            def hisGroupID():
-                return get_student
-            # end the doctor group id 
-            # get the doctor bu id 
-            request.session['idbu'] = studentBU_ID
+            request.session['student_group_id'] = format3
+            print(format3)
+            global student_group_id
+            def student_group_id():
+                return format3
+            # end the student group id 
+
+            # get the student bu id 
+            request.session['student_id_bu'] = studentBU_ID
             global student_bu_id
             def student_bu_id():
                 return studentBU_ID
-            # end the doctor bu id 
+            # end the student bu id 
+
+            # get the department classifications 
+            studentDepartmentID = Students.objects.filter(bu_id = studentBU_ID).values('id_department_fk')
+            formating_to_string = str(studentDepartmentID)
+            regular_get_number = re.findall('[0-9]+', formating_to_string)
+            return_to_int = int(regular_get_number[0])
+            get_name_department = Department.objects.filter(id_department = return_to_int).values('name_department')
+            formating_to_string2 = str(get_name_department)
+            regular_get_str = re.findall('[a-zA-Z]+', formating_to_string2)
+            request.session['student_dep_name'] = regular_get_str[3]
+            request.session['student_dep_id'] = return_to_int
+            global student_department_id
+            def student_department_id():
+                return return_to_int
+            # end the department classifications 
+
             request.session['name'] = request.POST.get('bu_id')
             return render(request, 'pages_Students/student_home.html')
         except Students.DoesNotExist as studentNull:
             messages.error(request, message_error_sorry + request.POST.get('bu_id') + message_error_reason)
+            print(str(studentNull) + ' id => ' + str(request.POST.get('bu_id') + ' pass => ' + str(request.POST.get('password'))))
     return render(request, "pages_login/loginStudents.html")
 
-
-
-
-
-
-
-
-
-
-## committee chairs views
+################################################################################################
+#################################### committee chairs views ####################################
+################################################################################################
 
 def committee_home(request):
     return render(request, 'pages_Committee/home.html')
-
-
-
-
-
 
 def committee_add_idea(request):
     
@@ -193,39 +253,17 @@ def committee_add_idea(request):
     }
     return render(request, 'pages_Committee/add_idea.html',context)
 
-
-
-
-
-    
-
 def show_suggested_idea(request):
     context={
-            'project':Projects.objects.all(),
-            
+            'project':Projects.objects.all().filter(id_department_fk = committee_department_id(), status = 'avilable'),
     }
     return render(request, 'pages_Committee/show_suggested_idea.html',context)
 
-
-
-
-
-
-
-
-
 def committee_show_idea(request):    
-    return render(request, 'pages_Committee/show_idea.html')
-
-
-
-
-
-
-
-
-
-
+    context={
+            'project':Projects.objects.all().filter(id_department_fk = committee_department_id(), status = 'anvilable'),       
+    }
+    return render(request, 'pages_Committee/show_idea.html',context)
 
 def modifying_groups(request):
     if request.method =='POST':
@@ -237,21 +275,11 @@ def modifying_groups(request):
 
     context = {
         'std_forms':Stu(),
-        'student':Students.objects.all(),
+        'student':Students.objects.all().filter(id_department_fk = committee_department_id()),
         'group_forms':Doc(),
-        'doctors':Doctors.objects.all(),
+        'doctors':Doctors.objects.all().filter(id_department_fk = committee_department_id()),
     }
     return render(request,'pages_Committee/modifying_groups.html', context)
-
-
-
-
-
-
-
-
-
-
 
 def Student_update(request,id):
     id_Stu = Students.objects.get(id_students=id)
@@ -266,7 +294,6 @@ def Student_update(request,id):
         'std_forms':stu_save
     }
     return render(request,'pages_Committee/Student_update.html', context)
-
 
 def Doctor_update(request,id):
     id_GRO = Doctors.objects.get(id_doctors=id)
@@ -285,12 +312,6 @@ def Doctor_update(request,id):
     }
     return render(request,'pages_Committee/Doctor_update.html', context)
 
-
-
-
-
-
-
 def Add_CRN(request):
     if request.method =='POST':
         cr = CRN(request.POST)
@@ -302,12 +323,6 @@ def Add_CRN(request):
         'groub':Groups.objects.all(),
     }
     return render(request, 'pages_Committee/Add_CRN.html',context)
-
-
-
-
-
-
 
 #CRNهنا سويت فنكشن عشان اقدر اسوي تعديل ل 
 def CRN_update(request,id):
@@ -327,29 +342,13 @@ def CRN_update(request,id):
     }
     return render(request,'pages_Committee/CRN_update.html', context)
 
-
-
-
-
-
-
-
 def show_evaluation(request):
-    evaluate = {'evaluation' : Evaluation.objects.all()}
+    evaluate = {'evaluation' : Evaluation.objects.all().filter(id_department = committee_department_id())}
     return render(request, 'pages_Committee/show_evaluation.html', evaluate)
-
-
-
-
-
-
-
 
 def distrbution_doctors_to_groups(request):
     distrbution_doctors = {
-        'evaluation' : Evaluation.objects.exclude(id_doctor_fk = None),
-        'evaluator' : Evaluation.objects.filter( Q(id_doctor_fk = None) | Q(id_doctor_fk2 = None) | Q(id_doctor_fk3 = None) ).exclude(id_groups_fk = None),
-        'evaluators': Evaluation.objects.all()
+        'evaluator' : Evaluation.objects.filter( Q(id_doctor_fk = None) | Q(id_doctor_fk2 = None) | Q(id_doctor_fk3 = None) ).exclude(id_groups_fk = None).filter(id_department = committee_department_id()),
         }
     return render(request, 'pages_Committee/distrbution_doctors_to_groups.html', distrbution_doctors)
 
@@ -371,7 +370,9 @@ def distrbution_update(request,id):
     }
     return render(request, 'pages_Committee/distrbution_update.html', context)
 
-# doctors views
+#######################################################################################
+#################################### doctors views ####################################
+#######################################################################################
 
 def doctors_home(request):
     return render(request, 'pages_Doctors/home.html')
@@ -382,7 +383,7 @@ def doctor_show_idea(request):
     context = {
     
         'show':Groups.objects.all(),
-        'projects':Projects.objects.all().exclude(id_groups_fk = None),
+        'projects':Projects.objects.all().exclude(id_groups_fk = None).filter(id_department_fk = doctor_department_id(), status = 'avilable'),
         'doctors':Doctors.objects.filter(id_bu = doctor_bu_id()),
         'doctorForm':ChooseGroupDoctor()
     }
@@ -413,7 +414,7 @@ def doctor_create_group(request):
         
 
     context = {
-        'students':Students.objects.all(),
+        'students':Students.objects.all().filter(id_groups_fk = None, id_department_fk = doctor_department_id()),
         'create': DoctorCreatingGroup(),
         'hi':Add_GRP(),
     }
@@ -439,15 +440,15 @@ def doctor_creating_group(request, id):
 
 
 def doctor_show_my_group(request):
-    student = Students.objects.all().filter(id_groups_fk = hisGroupID()).values('name_Students')
+    student = Students.objects.all().filter(id_groups_fk = doctor_group_id()).values('name_Students')
     for n in student:
         x = n
     tostr = str(student)
     format1 = re.findall('[a-zA-Z]+', tostr)
     context = {
-        'groupid':Groups.objects.all().filter(id_groups = hisGroupID()),
-        'hisStudents':Students.objects.all().filter(id_groups_fk = hisGroupID()),
-        'mygroup':hisGroupID()
+        'groupid':Groups.objects.all().filter(id_groups = doctor_group_id()),
+        'hisStudents':Students.objects.all().filter(id_groups_fk = doctor_group_id()),
+        'mygroup':doctor_group_id()
     }
     return render(request, 'pages_Doctors/doctor_show_my_group.html',context)
 
@@ -476,17 +477,16 @@ def doctor_upload_file(request,id):
 
 def doctor_show_my_group_evaluation(request):
     context = {
-        'doctor_evaluating':Evaluation.objects.filter(id_groups_fk = hisGroupID()),
+        'doctor_evaluating':Evaluation.objects.filter(id_groups_fk = doctor_group_id()),
     }
     return render(request, 'pages_Doctors/doctor_show_my_group_evaluation.html',context)
 
-# students views
+########################################################################################
+#################################### students views ####################################
+########################################################################################
 
 def student_home(request):
     return render(request, 'pages_Students/student_home.html')
-
-
-
 
 def student_show_the_department_idea(request):
     if request.method =='POST':
@@ -495,11 +495,10 @@ def student_show_the_department_idea(request):
             ge.save()
     context={
         'froms':ChoiceIdea(),
-        'project':Projects.objects.all(),
-        'choiceidea':Students.objects.all(),   
+        'project':Projects.objects.exclude(id_groups_fk = None).exclude(id_Doctors_fk = None).filter(id_department_fk = student_department_id(), status = 'avilable'),
+        'choiceidea':Students.objects.filter(id_students = student_id()),   
     }
     return render(request, 'pages_Students/student_show_the_department_idea.html',context)
-
 
 def Chose_Enter(request,id):
     Group = Students.objects.get(id_students=id)
@@ -515,23 +514,11 @@ def Chose_Enter(request,id):
     }
     return render(request,'pages_students/Chose_Enter.html', context)
 
-
-
-
-
-
-
-
-
-
 def student_show_archived_idea(request):
     context = {
-        'archiveed': Projects.objects.all(),
+        'archiveed': Projects.objects.all().filter(status = 'anvilable').exclude(name_projects = None).exclude(filled_projects = None).exclude(descriotion_projects = None).exclude(id_Doctors_fk = None).exclude(id_groups_fk = None),
     }
     return render(request, 'pages_students/student_show_archived_idea.html' ,context)
-
-
-     
 
 def student_upload_project(request):
     if request.method =='POST':
@@ -545,20 +532,18 @@ def student_upload_project(request):
     }
     return render(request, 'pages_students/student_upload_project.html' ,context)
 
-
-def student_create_groups(request):
+def student_choose_groups(request):
     if request.method =='POST':
         upload = InsertIdea(request.POST, request.FILES)
         if upload.is_valid():
             upload.save()
             return redirect('message_create_group')
-
     context ={
-        'students': Students.objects.all(),
+        'students': Students.objects.filter(id_students = student_id()),
         'from': InsertIdea(),
         'projects': Projects.objects.all()
     }
-    return render(request, 'pages_students/student_create_groups.html' ,context)
+    return render(request, 'pages_students/student_choose_groups.html' ,context)
 
 def choose_group(request,id):
     choose_group = Students.objects.get(id_students=id)
@@ -566,7 +551,7 @@ def choose_group(request,id):
         save_group = Choose_group(request.POST,instance=choose_group)
         if save_group.is_valid():
             save_group.save()
-            return redirect('/student_create_groups')
+            return redirect('/student_choose_groups')
     else:
         save_group = Choose_group(instance=choose_group)
     context={
@@ -574,43 +559,8 @@ def choose_group(request,id):
     }
     return render(request,'pages_students/choose_group.html', context)
 
-# def insert_idea(request):
-#     if request.method =='POST':
-#         upload = InsertIdea(request.POST, request.FILES)
-#         if upload.is_valid():
-#             upload.save()
-#             return redirect('message_create_group')
-
-#     context ={
-#         'from': InsertIdea(),
-#     }
-#     return render(request,'pages_students/insert_idea.html', context)
-
-def message_create_group(request):
-    msg = {'msg':'You have been insert your idea'}
-    return render(request, 'pages_students/message_create_group.html', msg)
-
-
-def student_dont_groups(request):
-    context ={
-        'dont_have_groupe_form': dont_have_groupeFORM()
-    }
-    return render(request,'pages_students/create_update.html', context)
-
-
-
-
-
-
-def student_dont_groups(request):
+def student_show_my_group(request):
     context = {
-        'grops': Students.objects.all(),
-        'stdname': Session.objects.all()
+        'grops': Students.objects.all().filter(id_groups_fk = student_group_id()),
     }
-    return render(request, 'pages_students/student_dont_groups.html' ,context)
-
-
-
-
-
-
+    return render(request, 'pages_students/student_show_my_group.html' ,context)
