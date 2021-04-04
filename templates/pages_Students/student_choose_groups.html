@@ -5,10 +5,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+        .container{
+            text-align: center;
+            padding-top: 100px;
+            }
+    </style>
 </head>
 <body>
 
-<form method="GET">
 <div class="container">
 
     <table class="table table-bordered">
@@ -30,32 +35,13 @@
                 <td>{{student.id_students}}</td>
                 <td>{{student.name_Students}}</td>
                 <td>{{student.id_groups_fk}}</td>
-                <td><a class="dropdown-item" href="{%url 'choose_group' student.id_students%}">Choose</a></td>
+                <td><a class="btn btn-outline-success" href="{%url 'choose_group' student.id_students%}">Choose</a></td>
                 
                 </tr>
                 {% endfor %}
                 
             </tbody>
         </table>
-
-        
-    
-
-
-
-</form>
-<br><br><br><br>
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="s">
-    {{from}}
-</div>
-<br>
-<div class="card-foter">
-    <button type="submit" class="btn btn-primary">submit</button>
-</div>
-    
-</form>
 </div>
 </body>
 

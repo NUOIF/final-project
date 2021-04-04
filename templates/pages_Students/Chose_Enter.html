@@ -2,14 +2,37 @@
 
 {%block content%}
 
-<form method="POST">
-    {% csrf_token %}
-    <div class="s">
-    {{from}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .s{
+            text-align: center;
+            padding-top: 100px;
+        }
+        .card-foter{
+            text-align: center;
+            padding-top: 20px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="s">
+            {{from}}
+            </div>
+            <div class="card-foter">
+                <button type="submit" class="btn btn-outline-primary">submit</button>
+            </div>
+        </form>
     </div>
-    <div class="card-foter">
-        <button type="submit" class="btn btn-primary">submit</button>
-    </div>
-</form>
-<h2>test</h2>
+</body>
+</html>
 {%endblock%}

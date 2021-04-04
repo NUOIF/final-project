@@ -4,82 +4,17 @@
 {%block content%}
 
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
-
-</head>
-
-<body>
-<!-- <style>
-label,
-footer {
-    font-family: sans-serif;
-}
-
-label {
-    font-size: 1rem;
-    padding-right: 10px;
-}
-
-select {
-    font-size: .9rem;
-    padding: 2px 5px;
-}
-
-footer {
-    font-size: .8rem;
-    position: absolute;
-    bottom: 30px;
-    left: 30px;
-}
-
-
-</style>
-<form method="POST" enctype="multipart/form-data">
-{% csrf_token %}
-  <div class="form">
-
-<label for="pet-select">Choose ID Groubs:</label>
-<select name="pets" id="pet-select">
-  
-    <option value="">--Please choose an ID--</option>
-    {%for gr in groub%}
-    <option value="dog">{{gr.id_groups}}</option>
-    {%endfor%}
-
-</select>
-{{froms}}
-</div>
-
-  <div class="card-foter">
-    <button type="submit" class="btn btn-primary">submit</button>
-    </div>
-   
-
-</form> -->
-
-<!-- </body>
-</html> -->
-
-
-
-<!DOCTYPE html>
 <html>
 <head>
   <style>
-    .add-crn {
-        padding-top:10px;
-        margin-top:10px;
+    .container{
+        text-align: center;
+        padding-top:100px
     }
-</style>
+  </style>
 </head>
 <body>
 
-<form class="add-crn">
   <div class="container">
     
 
@@ -95,24 +30,20 @@ footer {
         <tbody>
           
             <tr>
-               {%for gr in groub%}
-             
+              {%for gr in groub%}
+            
               <td>{{gr.id_groups}}</td>
               <td>{{gr.name_groups}}</td>
-              <td><a class="dropdown-item" href="{%url 'CRN_update' gr.id_groups%}">Edit</a></td>
-             
+              <td><a class="btn btn-outline-success" href="{%url 'CRN_update' gr.id_groups%}">Edit</a></td>
+
               
             </tr>
-             {% endfor %}
-             
+            {% endfor %}
+            
         </tbody>
       </table>
       
   </div>
-
-  
-</form>
-
 </body>
 
 </html>
