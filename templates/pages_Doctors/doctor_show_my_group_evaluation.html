@@ -2,5 +2,60 @@
 
 
 {%block content%}
-<h3>show my group evaluation</h3>
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container {
+        padding-top:100px;
+        margin-top:10px;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    
+
+    <table class="table table-bordered">
+      <thead>
+            
+        <tr>
+            <th scope="col">ID Evaluation</th>            
+            <th scope="col">ID Groups </th>            
+            <th scope="col">ID Doctor 1</th>   
+            <th scope="col">ID Doctor 2</th>            
+            <th scope="col">ID Doctor 3</th>            
+            <th scope="col">file Evaluation</th>           
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+               {% for evaluation in doctor_evaluating %}
+             
+              <td>{{evaluation.id_evaluation}}</td>
+              <td>{{evaluation.id_groups_fk}}</td>
+              <td>{{evaluation.id_doctor_fk}}</td>
+              <td>{{evaluation.id_doctor_fk2}}</td>
+              <td>{{evaluation.id_doctor_fk3}}</td>
+              <td>
+                <a class="btn btn-outline-primary" href="{{evaluation.file_evaluation.url}}"Dwonload="evaluation.file_evaluation.url">Dwonload Files</a>
+                </td>
+              
+             
+              
+            </tr>
+             {% endfor %}
+             
+        </tbody>
+</table>
+</div>
+
+</body>
+
+</html>
+        
+
 {%endblock%}

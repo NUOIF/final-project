@@ -1,18 +1,20 @@
 {%extends 'basic_committee.html'%}
 
 {%block content%}
-
-
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+        .container{
+            text-align: center;
+            padding-top:100px
+        }
+    </style>
 </head>
 <body>
 
-<form class="add-crn">
-<div class="container">
-    
 
+<div class="container">
     <table class="table table-bordered">
     <thead>
             
@@ -22,39 +24,32 @@
             <th scope="col">filled_projects</th>             
             <th scope="col">descriotion_projects</th>             
             <th scope="col">file_project</th>             
+<<<<<<< HEAD
             <th scope="col">Name doctor</th>           
             <th scope="col">status</th>   
+=======
+            <th scope="col">Doctor ID</th>           
+            
+>>>>>>> upstream/master
         </tr>
         </thead>
         <tbody>
         
             <tr>
             
-                {%for pro in project%}
-            
+            {%for pro in project%}
             <td>{{pro.id_projects}}</td>
             <td>{{pro.name_projects}}</td>
             <td>{{pro.filled_projects}}</td>
             <td>{{pro.descriotion_projects}}</td>
-            
-            <td>
-                <a href="{{pro.file_project.url}}"Dwonload="pro.file_project.url">Dwonload Files</a>
-            </td>
+            <td><a class="btn btn-outline-primary" href="{{pro.file_project.url}}" Download="pro.file_project.url">Download Files</a></td>
             <td>{{pro.id_Doctors_fk}}</td>
-            <td>{{pro.status}}</td>
-                
-            
             </tr>
             {% endfor %}
             
         </tbody>
     </table>
-    
 </div>
-
-
-</form>
-
 </body>
 
 </html>

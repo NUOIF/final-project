@@ -22,6 +22,7 @@ class CommitteesCharis(models.Model):
     name_committees_charis = models.CharField(max_length=45, blank=True, null=True,default="nothing")
     passwords = models.CharField(max_length=45, blank=True, null=True)
     id_department_fk = models.ForeignKey(Department, models.DO_NOTHING, db_column='id_department_fk', blank=True, null=True)
+    bu_id = models.IntegerField(blank=False, null=False)
     def __str__(self):
         return str(self.id_committees_charis)
 
@@ -62,9 +63,9 @@ class Doctors(models.Model):
     passwords = models.CharField(max_length=45, blank=True, null=True)
     id_department_fk = models.ForeignKey(Department, models.DO_NOTHING, db_column='id_department_fk', blank=True, null=True)
     id_groups_fk = models.ForeignKey(Groups, models.DO_NOTHING, db_column='id_Groups_fk', blank=True, null=True)  # Field name made lowercase.
-    id_bu = models.IntegerField(blank=True, null=True)
+    id_bu = models.IntegerField(blank=False, null=False)
     def __str__(self):
-        return str(self.name_doctors)
+        return str(self.id_doctors)
 
     class Meta:
         managed = False
@@ -89,7 +90,8 @@ class Projects(models.Model):
     id_groups_fk = models.ForeignKey(Groups, models.DO_NOTHING, db_column='id_Groups_fk', blank=True, null=True)  # Field name made lowercase.
     id_Doctors_fk=models.ForeignKey(Doctors,models.DO_NOTHING,db_column='id_Doctors_fk',blank=True,null=True)
     file_project = models.FileField(upload_to='doucment',db_column='File_Project') # Field name made lowercase.
-    status=models.CharField(max_length=50,choices=status_project,blank=True, null=True)
+    status=models.CharField(max_length=50,choices=status_project,blank=False, null=False)
+    id_department_fk = models.ForeignKey(Department, models.DO_NOTHING, db_column='id_department_fk', blank=False, null=False)
 
     def __str__(self):
         return str(self.id_projects)
@@ -105,13 +107,17 @@ class Projects(models.Model):
 
 
 
+
 class Evaluation(models.Model):
     id_evaluation = models.AutoField(db_column='id_Evaluation', primary_key=True)  # Field name made lowercase.
-    gread_evaluation = models.CharField(max_length=45, blank=True, null=True)
+    file_evaluation = models.FileField(upload_to='doucment',db_column='file_evaluation_dr1', default='doucment/defaultform.docx')
     id_groups_fk = models.ForeignKey(Groups, models.DO_NOTHING, db_column='id_Groups_fk', blank=True, null=True)  # Field name made lowercase.
     id_doctor_fk = models.ForeignKey(Doctors, models.DO_NOTHING, db_column='id_doctor_fk', blank=True, null=True   ,related_name='Eval1')
     id_doctor_fk2 = models.ForeignKey(Doctors, models.DO_NOTHING, db_column='id_doctor_fk2', blank=True, null=True ,related_name='Eval2')
     id_doctor_fk3 = models.ForeignKey(Doctors, models.DO_NOTHING, db_column='id_doctor_fk3', blank=True, null=True ,related_name='Eval3')  # Field name made lowercase.
+    file_evaluation_dr2 = models.FileField(upload_to='doucment',db_column='file_evaluation_dr2', default='doucment/defaultform.docx')
+    file_evaluation_dr3 = models.FileField(upload_to='doucment',db_column='file_evaluation_dr3', default='doucment/defaultform.docx')
+    id_department = models.ForeignKey(Department, models.DO_NOTHING, db_column='id_department', blank=False, null=False)
     def __str__(self):
         return str(self.id_evaluation)
 
@@ -147,6 +153,7 @@ class Students(models.Model):
     passwords = models.CharField(max_length=45, blank=True, null=True)
     id_groups_fk = models.ForeignKey(Groups, models.DO_NOTHING, db_column='id_Groups_fk', blank=True, null=True)  # Field name made lowercase.
     id_department_fk = models.ForeignKey(Department, models.DO_NOTHING, db_column='id_department_fk', blank=True, null=True)
+    bu_id = models.IntegerField(blank=False, null=False)
     def __str__(self):
         return str(self.id_students)
 

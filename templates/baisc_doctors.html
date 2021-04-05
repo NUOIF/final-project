@@ -8,15 +8,22 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
-    <title>Committee Chair</title>
-
+    <title>Doctor</title>
 <link rel="stylesheet" href="{% static 'bootstrap-5.0.0-beta2-dist/css/bootstrap.min.css' %}">
+<style>
+    .titlespan{
+        color:#4d94ff;
+    }
+    span{
+        color:#e6f0ff;
+    }
+</style>
 <script src="{% static 'bootstrap-5.0.0-beta2-dist/js/bootstrap.min.js' %}"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Doctors</a>
+            <a class="navbar-brand" href="#">Welcome Dr.{{request.session.doctor_name}}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -35,7 +42,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Groups</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="doctor_create_group">Create a group</a></li>
-                            <li><a class="dropdown-item" href="doctor_modification_the_group">Modification the group</a></li>
+                            <li><a class="dropdown-item" href="doctor_show_my_group">Show my group</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -47,9 +54,11 @@
                     </li>
                 </ul>
                     <form class="d-flex">
-                        <a class="navbar-brand">Dr.Sultan</a>
-                        <a class="navbar-brand">M87</a>
-                        <a class="navbar-brand" href="loginDoctors">Logout</a>
+                        <a class="navbar-brand"><span class="titlespan">ID</span> : <span>{{ request.session.doctor_id }}</span></a>
+                        <a class="navbar-brand"><span class="titlespan">BU_ID</span> : <span>{{ request.session.doctor_id_bu }}</span></a>
+                        <a class="navbar-brand"><span class="titlespan">Group_ID</span> : <span>{{ request.session.doctor_group_id }}</span></a>
+                        <a class="navbar-brand"><span class="titlespan">Dep_ID</span> : <span>{{ request.session.doctor_dep_name }}</span></a>
+                        <a class="btn btn-outline-danger" href="loginDoctors">Logout</a>
                     </form>
 
             </div>
